@@ -80,10 +80,9 @@ const translations = {
     clientNamePlaceholder: 'Client name',
     createdWithBillcraft: 'Created with BillCraft',
     saveCompanyInfo: 'Save as default company info',
-        clientNameCompanyPlaceholder: 'Client name / Company',
+    clientNameCompanyPlaceholder: 'Client name / Company',
     clientEmailPlaceholder: 'Client email',
     defaultNote: 'Payment must be made within 7 business days. Thank you!',
-
   },
   tr: {
     myInvoices: 'Faturalarım',
@@ -123,229 +122,221 @@ const translations = {
     clientNamePlaceholder: 'Müşteri adı',
     createdWithBillcraft: 'BillCraft ile oluşturuldu',
     saveCompanyInfo: 'Varsayılan şirket bilgisi olarak kaydet',
-        clientNameCompanyPlaceholder: 'Müşteri adı / Şirket',
+    clientNameCompanyPlaceholder: 'Müşteri adı / Şirket',
     clientEmailPlaceholder: 'Müşteri e-posta',
     defaultNote: 'Ödeme 7 iş günü içinde yapılmalıdır. Teşekkürler!',
-
   },
   hu: {
-  myInvoices: 'Számláim',
-  noInvoiceYet: 'Nincs még elmentett számla.',
-  invoiceDetails: 'Számla adatai',
-  invoiceNo: 'Számlaszám',
-  currency: 'Pénznem',
-  date: 'Dátum',
-  dueDate: 'Fizetési határidő',
-  senderYou: 'Kibocsátó (Ön)',
-  client: 'Ügyfél',
-  lineItems: 'Tételek',
-  vatRate: 'ÁFA (%)',
-  notesBank: 'Megjegyzések / Banki adatok',
-  saveToClients: 'Mentés ügyfelekhez',
-  clickClientBelow: 'Válasszon ügyfelet alul',
-  loadingClients: 'Ügyfelek betöltése...',
-  noClientsYet: 'Még nincs mentett ügyfél.',
-  loadingInvoices: 'Betöltés...',
-  serviceDescriptionPlaceholder: 'Szolgáltatás leírása',
-  serviceDescriptionPreview: 'Írja be a szolgáltatás leírását...',
-  subtotal: 'Részösszeg',
-  total: 'ÖSSZESEN',
-  billTo: 'Számlázva:',
-  noteLabel: 'Megjegyzés:',
-  
-  newInvoiceBtn: 'Új számla',
-  saveBtn: 'Mentés',
-  downloadPdfBtn: 'PDF letöltése',
-  invoiceTitle: 'SZÁMLA',
-  description: 'Leírás',
-  quantity: 'Mennyiség',
-  price: 'Ár',
-  unitPrice: 'Egységár',
-  vatShort: 'ÁFA',
-  addNewLine: 'Új tétel hozzáadása',
-  clientNamePlaceholder: 'Ügyfél neve',
-  createdWithBillcraft: 'Készült a BillCraft segítségével',
-  saveCompanyInfo: 'Mentés alapértelmezett cégadatként',
-
-  clientNameCompanyPlaceholder: 'Ügyfél neve / Cég',
-  clientEmailPlaceholder: 'Ügyfél email',
-  defaultNote: 'A fizetésnek 7 munkanapon belül kell megtörténnie. Köszönjük!',
-},
-fr: {
-  myInvoices: 'Mes factures',
-  noInvoiceYet: 'Aucune facture enregistrée.',
-  invoiceDetails: 'Détails de la facture',
-  invoiceNo: 'N° facture',
-  currency: 'Devise',
-  date: 'Date',
-  dueDate: 'Date d’échéance',
-  senderYou: 'Émetteur (vous)',
-  client: 'Client',
-  lineItems: 'Éléments',
-  vatRate: 'TVA (%)',
-  notesBank: 'Notes / Coordonnées bancaires',
-  saveToClients: 'Enregistrer dans les clients',
-  clickClientBelow: 'Cliquez sur un client ci-dessous',
-  loadingClients: 'Chargement des clients...',
-  noClientsYet: 'Aucun client enregistré.',
-  loadingInvoices: 'Chargement...',
-  serviceDescriptionPlaceholder: 'Description du service',
-  serviceDescriptionPreview: 'Saisissez la description du service...',
-  subtotal: 'Sous-total',
-  total: 'TOTAL',
-  billTo: 'Facturé à :',
-  noteLabel: 'Note :',
-  
-  newInvoiceBtn: 'Nouvelle facture',
-  saveBtn: 'Enregistrer',
-  downloadPdfBtn: 'Télécharger PDF',
-  invoiceTitle: 'FACTURE',
-  description: 'Description',
-  quantity: 'Quantité',
-  price: 'Prix',
-  unitPrice: 'Prix unitaire',
-  vatShort: 'TVA',
-  addNewLine: 'Ajouter une ligne',
-  clientNamePlaceholder: 'Nom du client',
-  createdWithBillcraft: 'Créé avec BillCraft',
-  saveCompanyInfo: 'Enregistrer comme infos par défaut',
-
-  clientNameCompanyPlaceholder: 'Nom du client / Société',
-  clientEmailPlaceholder: 'Email du client',
-  defaultNote: 'Le paiement doit être effectué dans les 7 jours ouvrables. Merci!',
-},
-it: {
-  myInvoices: 'Le mie fatture',
-  noInvoiceYet: 'Nessuna fattura salvata.',
-  invoiceDetails: 'Dettagli fattura',
-  invoiceNo: 'Numero fattura',
-  currency: 'Valuta',
-  date: 'Data',
-  dueDate: 'Data di scadenza',
-  senderYou: 'Emittente (tu)',
-  client: 'Cliente',
-  lineItems: 'Articoli',
-  vatRate: 'IVA (%)',
-  notesBank: 'Note / Dati bancari',
-  saveToClients: 'Salva nei clienti',
-  clickClientBelow: 'Seleziona un cliente qui sotto',
-  loadingClients: 'Caricamento clienti...',
-  noClientsYet: 'Nessun cliente salvato.',
-  loadingInvoices: 'Caricamento...',
-  serviceDescriptionPlaceholder: 'Descrizione del servizio',
-  serviceDescriptionPreview: 'Inserisci la descrizione del servizio...',
-  subtotal: 'Subtotale',
-  total: 'TOTALE',
-  billTo: 'Fatturato a:',
-  noteLabel: 'Nota:',
-  
-  newInvoiceBtn: 'Nuova fattura',
-  saveBtn: 'Salva',
-  downloadPdfBtn: 'Scarica PDF',
-  invoiceTitle: 'FATTURA',
-  description: 'Descrizione',
-  quantity: 'Quantità',
-  price: 'Prezzo',
-  unitPrice: 'Prezzo unitario',
-  vatShort: 'IVA',
-  addNewLine: 'Aggiungi una riga',
-  clientNamePlaceholder: 'Nome cliente',
-  createdWithBillcraft: 'Creato con BillCraft',
-  saveCompanyInfo: 'Salva come info aziendali predefinite',
-
-  clientNameCompanyPlaceholder: 'Nome cliente / Azienda',
-  clientEmailPlaceholder: 'Email cliente',
-  defaultNote: 'Il pagamento deve essere effettuato entro 7 giorni lavorativi. Grazie!',
-},
-de: {
-  myInvoices: 'Meine Rechnungen',
-  noInvoiceYet: 'Noch keine Rechnung gespeichert.',
-  invoiceDetails: 'Rechnungsdetails',
-  invoiceNo: 'Rechnungsnummer',
-  currency: 'Währung',
-  date: 'Datum',
-  dueDate: 'Fälligkeitsdatum',
-  senderYou: 'Absender (Sie)',
-  client: 'Kunde',
-  lineItems: 'Positionen',
-  vatRate: 'MwSt (%)',
-  notesBank: 'Notizen / Bankdaten',
-  saveToClients: 'Zum Kunden speichern',
-  clickClientBelow: 'Klicken Sie unten auf einen Kunden',
-  loadingClients: 'Kunden werden geladen...',
-  noClientsYet: 'Keine gespeicherten Kunden.',
-  loadingInvoices: 'Wird geladen...',
-  serviceDescriptionPlaceholder: 'Leistungsbeschreibung',
-  serviceDescriptionPreview: 'Beschreibung eingeben...',
-  subtotal: 'Zwischensumme',
-  total: 'GESAMT',
-  billTo: 'Rechnung an:',
-  noteLabel: 'Notiz:',
-  
-  newInvoiceBtn: 'Neue Rechnung',
-  saveBtn: 'Speichern',
-  downloadPdfBtn: 'PDF herunterladen',
-  invoiceTitle: 'RECHNUNG',
-  description: 'Beschreibung',
-  quantity: 'Menge',
-  price: 'Preis',
-  unitPrice: 'Stückpreis',
-  vatShort: 'MwSt',
-  addNewLine: 'Neue Zeile hinzufügen',
-  clientNamePlaceholder: 'Kundenname',
-  createdWithBillcraft: 'Erstellt mit BillCraft',
-  saveCompanyInfo: 'Als Standard Firmendaten speichern',
-
-  clientNameCompanyPlaceholder: 'Kundenname / Firma',
-  clientEmailPlaceholder: 'Kunden-E-Mail',
-  defaultNote: 'Die Zahlung muss innerhalb von 7 Werktagen erfolgen. Danke!',
-},
-es: {
-  myInvoices: 'Mis facturas',
-  noInvoiceYet: 'Aún no hay facturas guardadas.',
-  invoiceDetails: 'Detalles de la factura',
-  invoiceNo: 'Nº factura',
-  currency: 'Moneda',
-  date: 'Fecha',
-  dueDate: 'Fecha de vencimiento',
-  senderYou: 'Emisor (tú)',
-  client: 'Cliente',
-  lineItems: 'Conceptos',
-  vatRate: 'IVA (%)',
-  notesBank: 'Notas / Datos bancarios',
-  saveToClients: 'Guardar en clientes',
-  clickClientBelow: 'Haz clic en un cliente abajo',
-  loadingClients: 'Cargando clientes...',
-  noClientsYet: 'No hay clientes guardados.',
-  loadingInvoices: 'Cargando...',
-  serviceDescriptionPlaceholder: 'Descripción del servicio',
-  serviceDescriptionPreview: 'Ingresa la descripción del servicio...',
-  subtotal: 'Subtotal',
-  total: 'TOTAL',
-  billTo: 'Facturado a:',
-  noteLabel: 'Nota:',
-  
-  newInvoiceBtn: 'Nueva factura',
-  saveBtn: 'Guardar',
-  downloadPdfBtn: 'Descargar PDF',
-  invoiceTitle: 'FACTURA',
-  description: 'Descripción',
-  quantity: 'Cantidad',
-  price: 'Precio',
-  unitPrice: 'Precio unitario',
-  vatShort: 'IVA',
-  addNewLine: 'Agregar línea',
-  clientNamePlaceholder: 'Nombre del cliente',
-  createdWithBillcraft: 'Creado con BillCraft',
-  saveCompanyInfo: 'Guardar como datos predeterminados',
-
-  clientNameCompanyPlaceholder: 'Nombre del cliente / Empresa',
-  clientEmailPlaceholder: 'Correo del cliente',
-  defaultNote: 'El pago debe realizarse dentro de 7 días hábiles. ¡Gracias!',
-},
-
+    myInvoices: 'Számláim',
+    noInvoiceYet: 'Nincs még elmentett számla.',
+    invoiceDetails: 'Számla adatai',
+    invoiceNo: 'Számlaszám',
+    currency: 'Pénznem',
+    date: 'Dátum',
+    dueDate: 'Fizetési határidő',
+    senderYou: 'Kibocsátó (Ön)',
+    client: 'Ügyfél',
+    lineItems: 'Tételek',
+    vatRate: 'ÁFA (%)',
+    notesBank: 'Megjegyzések / Banki adatok',
+    saveToClients: 'Mentés ügyfelekhez',
+    clickClientBelow: 'Válasszon ügyfelet alul',
+    loadingClients: 'Ügyfelek betöltése...',
+    noClientsYet: 'Még nincs mentett ügyfél.',
+    loadingInvoices: 'Betöltés...',
+    serviceDescriptionPlaceholder: 'Szolgáltatás leírása',
+    serviceDescriptionPreview: 'Írja be a szolgáltatás leírását...',
+    subtotal: 'Részösszeg',
+    total: 'ÖSSZESEN',
+    billTo: 'Számlázva:',
+    noteLabel: 'Megjegyzés:',
+    newInvoiceBtn: 'Új számla',
+    saveBtn: 'Mentés',
+    downloadPdfBtn: 'PDF letöltése',
+    invoiceTitle: 'SZÁMLA',
+    description: 'Leírás',
+    quantity: 'Mennyiség',
+    price: 'Ár',
+    unitPrice: 'Egységár',
+    vatShort: 'ÁFA',
+    addNewLine: 'Új tétel hozzáadása',
+    clientNamePlaceholder: 'Ügyfél neve',
+    createdWithBillcraft: 'Készült a BillCraft segítségével',
+    saveCompanyInfo: 'Mentés alapértelmezett cégadatként',
+    clientNameCompanyPlaceholder: 'Ügyfél neve / Cég',
+    clientEmailPlaceholder: 'Ügyfél email',
+    defaultNote:
+      'A fizetésnek 7 munkanapon belül kell megtörténnie. Köszönjük!',
+  },
+  fr: {
+    myInvoices: 'Mes factures',
+    noInvoiceYet: 'Aucune facture enregistrée.',
+    invoiceDetails: 'Détails de la facture',
+    invoiceNo: 'N° facture',
+    currency: 'Devise',
+    date: 'Date',
+    dueDate: 'Date d’échéance',
+    senderYou: 'Émetteur (vous)',
+    client: 'Client',
+    lineItems: 'Éléments',
+    vatRate: 'TVA (%)',
+    notesBank: 'Notes / Coordonnées bancaires',
+    saveToClients: 'Enregistrer dans les clients',
+    clickClientBelow: 'Cliquez sur un client ci-dessous',
+    loadingClients: 'Chargement des clients...',
+    noClientsYet: 'Aucun client enregistré.',
+    loadingInvoices: 'Chargement...',
+    serviceDescriptionPlaceholder: 'Description du service',
+    serviceDescriptionPreview: 'Saisissez la description du service...',
+    subtotal: 'Sous-total',
+    total: 'TOTAL',
+    billTo: 'Facturé à :',
+    noteLabel: 'Note :',
+    newInvoiceBtn: 'Nouvelle facture',
+    saveBtn: 'Enregistrer',
+    downloadPdfBtn: 'Télécharger PDF',
+    invoiceTitle: 'FACTURE',
+    description: 'Description',
+    quantity: 'Quantité',
+    price: 'Prix',
+    unitPrice: 'Prix unitaire',
+    vatShort: 'TVA',
+    addNewLine: 'Ajouter une ligne',
+    clientNamePlaceholder: 'Nom du client',
+    createdWithBillcraft: 'Créé avec BillCraft',
+    saveCompanyInfo: 'Enregistrer comme infos par défaut',
+    clientNameCompanyPlaceholder: 'Nom du client / Société',
+    clientEmailPlaceholder: 'Email du client',
+    defaultNote:
+      'Le paiement doit être effectué dans les 7 jours ouvrables. Merci!',
+  },
+  it: {
+    myInvoices: 'Le mie fatture',
+    noInvoiceYet: 'Nessuna fattura salvata.',
+    invoiceDetails: 'Dettagli fattura',
+    invoiceNo: 'Numero fattura',
+    currency: 'Valuta',
+    date: 'Data',
+    dueDate: 'Data di scadenza',
+    senderYou: 'Emittente (tu)',
+    client: 'Cliente',
+    lineItems: 'Articoli',
+    vatRate: 'IVA (%)',
+    notesBank: 'Note / Dati bancari',
+    saveToClients: 'Salva nei clienti',
+    clickClientBelow: 'Seleziona un cliente qui sotto',
+    loadingClients: 'Caricamento clienti...',
+    noClientsYet: 'Nessun cliente salvato.',
+    loadingInvoices: 'Caricamento...',
+    serviceDescriptionPlaceholder: 'Descrizione del servizio',
+    serviceDescriptionPreview: 'Inserisci la descrizione del servizio...',
+    subtotal: 'Subtotale',
+    total: 'TOTALE',
+    billTo: 'Fatturato a:',
+    noteLabel: 'Nota:',
+    newInvoiceBtn: 'Nuova fattura',
+    saveBtn: 'Salva',
+    downloadPdfBtn: 'Scarica PDF',
+    invoiceTitle: 'FATTURA',
+    description: 'Descrizione',
+    quantity: 'Quantità',
+    price: 'Prezzo',
+    unitPrice: 'Prezzo unitario',
+    vatShort: 'IVA',
+    addNewLine: 'Aggiungi una riga',
+    clientNamePlaceholder: 'Nome cliente',
+    createdWithBillcraft: 'Creato con BillCraft',
+    saveCompanyInfo: 'Salva come info aziendali predefinite',
+    clientNameCompanyPlaceholder: 'Nome cliente / Azienda',
+    clientEmailPlaceholder: 'Email cliente',
+    defaultNote:
+      'Il pagamento deve essere effettuato entro 7 giorni lavorativi. Grazie!',
+  },
+  de: {
+    myInvoices: 'Meine Rechnungen',
+    noInvoiceYet: 'Noch keine Rechnung gespeichert.',
+    invoiceDetails: 'Rechnungsdetails',
+    invoiceNo: 'Rechnungsnummer',
+    currency: 'Währung',
+    date: 'Datum',
+    dueDate: 'Fälligkeitsdatum',
+    senderYou: 'Absender (Sie)',
+    client: 'Kunde',
+    lineItems: 'Positionen',
+    vatRate: 'MwSt (%)',
+    notesBank: 'Notizen / Bankdaten',
+    saveToClients: 'Zum Kunden speichern',
+    clickClientBelow: 'Klicken Sie unten auf einen Kunden',
+    loadingClients: 'Kunden werden geladen...',
+    noClientsYet: 'Keine gespeicherten Kunden.',
+    loadingInvoices: 'Wird geladen...',
+    serviceDescriptionPlaceholder: 'Leistungsbeschreibung',
+    serviceDescriptionPreview: 'Beschreibung eingeben...',
+    subtotal: 'Zwischensumme',
+    total: 'GESAMT',
+    billTo: 'Rechnung an:',
+    noteLabel: 'Notiz:',
+    newInvoiceBtn: 'Neue Rechnung',
+    saveBtn: 'Speichern',
+    downloadPdfBtn: 'PDF herunterladen',
+    invoiceTitle: 'RECHNUNG',
+    description: 'Beschreibung',
+    quantity: 'Menge',
+    price: 'Preis',
+    unitPrice: 'Stückpreis',
+    vatShort: 'MwSt',
+    addNewLine: 'Neue Zeile hinzufügen',
+    clientNamePlaceholder: 'Kundenname',
+    createdWithBillcraft: 'Erstellt mit BillCraft',
+    saveCompanyInfo: 'Als Standard Firmendaten speichern',
+    clientNameCompanyPlaceholder: 'Kundenname / Firma',
+    clientEmailPlaceholder: 'Kunden-E-Mail',
+    defaultNote:
+      'Die Zahlung muss innerhalb von 7 Werktagen erfolgen. Danke!',
+  },
+  es: {
+    myInvoices: 'Mis facturas',
+    noInvoiceYet: 'Aún no hay facturas guardadas.',
+    invoiceDetails: 'Detalles de la factura',
+    invoiceNo: 'Nº factura',
+    currency: 'Moneda',
+    date: 'Fecha',
+    dueDate: 'Fecha de vencimiento',
+    senderYou: 'Emisor (tú)',
+    client: 'Cliente',
+    lineItems: 'Conceptos',
+    vatRate: 'IVA (%)',
+    notesBank: 'Notas / Datos bancarios',
+    saveToClients: 'Guardar en clientes',
+    clickClientBelow: 'Haz clic en un cliente abajo',
+    loadingClients: 'Cargando clientes...',
+    noClientsYet: 'No hay clientes guardados.',
+    loadingInvoices: 'Cargando...',
+    serviceDescriptionPlaceholder: 'Descripción del servicio',
+    serviceDescriptionPreview: 'Ingresa la descripción del servicio...',
+    subtotal: 'Subtotal',
+    total: 'TOTAL',
+    billTo: 'Facturado a:',
+    noteLabel: 'Nota:',
+    newInvoiceBtn: 'Nueva factura',
+    saveBtn: 'Guardar',
+    downloadPdfBtn: 'Descargar PDF',
+    invoiceTitle: 'FACTURA',
+    description: 'Descripción',
+    quantity: 'Cantidad',
+    price: 'Precio',
+    unitPrice: 'Precio unitario',
+    vatShort: 'IVA',
+    addNewLine: 'Agregar línea',
+    clientNamePlaceholder: 'Nombre del cliente',
+    createdWithBillcraft: 'Creado con BillCraft',
+    saveCompanyInfo: 'Guardar como datos predeterminados',
+    clientNameCompanyPlaceholder: 'Nombre del cliente / Empresa',
+    clientEmailPlaceholder: 'Correo del cliente',
+    defaultNote:
+      'El pago debe realizarse dentro de 7 días hábiles. ¡Gracias!',
+  },
 };
-
 
 // ========================
 // TOP LEVEL APP (AUTH + BILLCRAFT)
@@ -543,6 +534,9 @@ function BillCraftApp({ user }) {
     translations.en[key] ||
     key;
 
+  // Mobile preview toggle
+  const [showMobilePreview, setShowMobilePreview] = useState(false);
+
   // Resizable sidebar, default max width
   const [sidebarWidth, setSidebarWidth] = useState(MAX_SIDEBAR_WIDTH);
   const [isResizing, setIsResizing] = useState(false);
@@ -563,9 +557,7 @@ function BillCraftApp({ user }) {
     client: { name: '', email: '', address: '' },
     currency: '₺',
     taxRate: 20,
-    note: language === 'tr'
-        ? translations.tr.defaultNote
-        : translations.en.defaultNote,
+    note: translations.en.defaultNote,
     logoDataUrl: null,
   });
 
@@ -630,9 +622,10 @@ function BillCraftApp({ user }) {
                 ? data.defaultTaxRate
                 : prev.taxRate,
             logoDataUrl: data.logoDataUrl || prev.logoDataUrl,
+            // noteyi dokunmuyoruz, kullanıcı değiştirmiş olabilir
           }));
 
-          if (data.language === 'tr' || data.language === 'en') {
+          if (data.language && translations[data.language]) {
             setLanguage(data.language);
           }
 
@@ -782,9 +775,8 @@ function BillCraftApp({ user }) {
       client: { name: '', email: '', address: '' },
       currency: '₺',
       taxRate: 20,
-      note: language === 'tr'
-          ? translations.tr.defaultNote
-          : translations.en.defaultNote,
+      note:
+        translations[language]?.defaultNote || translations.en.defaultNote,
       logoDataUrl: null,
     });
     setItems([
@@ -997,11 +989,13 @@ function BillCraftApp({ user }) {
     <div className="min-h-screen bg-slate-950 font-sans text-slate-100 flex flex-col md:flex-row items-stretch">
       {/* LEFT PANEL: EDITOR */}
       <div
-        className="bg-slate-900 border-r border-slate-800 overflow-y-auto flex flex-col shadow-xl z-10 w-full md:flex-none"
-        style={{ width: sidebarWidth }}
+        className={`bg-slate-900 border-r border-slate-800 overflow-y-auto flex flex-col shadow-xl z-10 w-full md:flex-none
+          ${showMobilePreview ? 'hidden' : 'flex'}
+        `}
+        style={{ width: '100%', maxWidth: sidebarWidth }}
       >
-        <div className="p-6 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4 sticky top-0 bg-slate-900 z-20">
-
+        <div className="p-4 sm:p-6 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-6 sticky top-0 bg-slate-900 z-20">
+          {/* Logo + title */}
           <div className="flex items-center gap-2 text-indigo-400">
             <div className="bg-indigo-900/60 p-2 rounded-lg">
               <FileText size={24} />
@@ -1009,24 +1003,25 @@ function BillCraftApp({ user }) {
             <h1 className="text-xl font-bold text-white">BillCraft</h1>
           </div>
 
-          {/* Right actions */}
-          <div className="flex flex-wrap items-center justify-end gap-3">
+          {/* DESKTOP actions */}
+          <div className="hidden sm:flex items-center justify-end gap-3">
             {/* Language selector */}
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="hidden sm:block text-[11px] bg-slate-900 border border-slate-700 rounded-full px-3 py-1 text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              className="text-[11px] bg-slate-900 border border-slate-700 rounded-full px-3 py-1 text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
             >
               <option value="en">EN</option>
               <option value="tr">TR</option>
               <option value="hu">HU</option>
-  <option value="fr">FR</option>
-  <option value="it">IT</option>
-  <option value="de">DE</option>
-  <option value="es">ES</option>
+              <option value="fr">FR</option>
+              <option value="it">IT</option>
+              <option value="de">DE</option>
+              <option value="es">ES</option>
             </select>
-            {/* New + Save group (desktop) */}
-            <div className="hidden sm:flex items-center bg-slate-800 rounded-full px-4 py-2 shadow-sm border border-slate-700">
+
+            {/* New + Save group */}
+            <div className="flex items-center bg-slate-800 rounded-full px-4 py-2 shadow-sm border border-slate-700">
               <button
                 onClick={resetInvoiceForm}
                 className="text-[11px] font-semibold px-4 py-1 rounded-full text-slate-100 hover:bg-slate-700 transition-colors mr-4"
@@ -1049,6 +1044,66 @@ function BillCraftApp({ user }) {
             >
               <Download size={16} /> {t('downloadPdfBtn')}
             </button>
+          </div>
+
+          {/* MOBILE actions */}
+          <div className="mt-3 sm:hidden w-full flex flex-col gap-2">
+            {/* Toggle Preview / Editor */}
+            <button
+              onClick={() => setShowMobilePreview(!showMobilePreview)}
+              className="w-full bg-indigo-600 text-white py-2 rounded-lg text-sm font-semibold shadow-md hover:bg-indigo-700 transition flex items-center justify-center gap-2"
+            >
+              {showMobilePreview ? (
+                <>
+                  <FileText size={16} /> Back to Editor
+                </>
+              ) : (
+                <>
+                  <FileText size={16} /> Preview Invoice
+                </>
+              )}
+            </button>
+
+            {/* Üst satır: New + Save */}
+            <div className="flex w-full gap-2">
+              <button
+                onClick={resetInvoiceForm}
+                className="flex-1 text-[11px] font-semibold px-3 py-2 rounded-full text-slate-100 bg-slate-800 hover:bg-slate-700 transition-colors"
+              >
+                {t('newInvoiceBtn')}
+              </button>
+
+              <button
+                onClick={handleSaveInvoice}
+                className="flex-1 text-[11px] font-semibold px-3 py-2 rounded-full text-slate-900 bg-emerald-400 hover:bg-emerald-300 flex items-center justify-center gap-1 transition-colors"
+              >
+                <Download size={12} /> {t('saveBtn')}
+              </button>
+            </div>
+
+            {/* Alt satır: Dil + Download */}
+            <div className="flex w-full gap-2">
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="flex-1 text-[11px] bg-slate-900 border border-slate-700 rounded-full px-3 py-2 text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              >
+                <option value="en">EN</option>
+                <option value="tr">TR</option>
+                <option value="hu">HU</option>
+                <option value="fr">FR</option>
+                <option value="it">IT</option>
+                <option value="de">DE</option>
+                <option value="es">ES</option>
+              </select>
+
+              <button
+                onClick={handleDownloadPDF}
+                className="flex-[1.4] text-[11px] font-semibold bg-indigo-600 text-white px-3 py-2 rounded-full shadow-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-1"
+              >
+                <Download size={14} /> {t('downloadPdfBtn')}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1416,7 +1471,13 @@ function BillCraftApp({ user }) {
       </div>
 
       {/* RIGHT PANEL: PREVIEW */}
-      <div className="flex-1 bg-slate-950 p-8 flex flex-col items-center justify-center relative overflow-hidden">
+      <div
+        className={`
+          flex-1 bg-slate-950 p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center relative overflow-hidden
+          ${showMobilePreview ? 'flex' : 'hidden'}
+          md:flex
+        `}
+      >
         <div
           className="absolute inset-0 opacity-5 pointer-events-none"
           style={{
@@ -1425,10 +1486,10 @@ function BillCraftApp({ user }) {
           }}
         ></div>
 
-        <div className="transition-all scale-75 md:scale-90 lg:scale-100 origin-top">
+        <div className="transition-all scale-[1.2] md:scale-[1.05] lg:scale-[1.1] origin-top">
           <div
             ref={invoiceRef}
-            className="bg-white w-full max-w-[210mm] shadow-2xl rounded-sm p-12 text-slate-800 relative"
+            className="bg-white w-full max-w-full md:max-w-[230mm] shadow-2xl rounded-sm p-4 sm:p-6 lg:p-12 text-slate-800 relative"
           >
             {/* Header */}
             <div className="flex justify-between items-start mb-12">
@@ -1498,17 +1559,17 @@ function BillCraftApp({ user }) {
               <thead>
                 <tr className="border-b-2 border-slate-100">
                   <th className="text-left py-3 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/2">
-  {t('description')}
-</th>
-<th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-  {t('quantity')}
-</th>
-<th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-  {t('price')}
-</th>
-<th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-  {t('total')}
-</th>
+                    {t('description')}
+                  </th>
+                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    {t('quantity')}
+                  </th>
+                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    {t('price')}
+                  </th>
+                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    {t('total')}
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -1540,7 +1601,9 @@ function BillCraftApp({ user }) {
                     <span>{formatMoney(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-sm text-slate-500">
-                    <span>{t('vatShort')} ({invoice.taxRate}%)</span>
+                    <span>
+                      {t('vatShort')} ({invoice.taxRate}%)
+                    </span>
                     <span>{formatMoney(taxAmount)}</span>
                   </div>
                   <div className="flex justify-between text-xl font-bold text-indigo-600 border-t border-slate-200 pt-3">
