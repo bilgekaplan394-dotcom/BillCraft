@@ -41,6 +41,312 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
+const translations = {
+  en: {
+    myInvoices: 'My invoices',
+    noInvoiceYet: 'No invoice saved yet.',
+    invoiceDetails: 'Invoice details',
+    invoiceNo: 'Invoice no',
+    currency: 'Currency',
+    date: 'Date',
+    dueDate: 'Due date',
+    senderYou: 'Sender (you)',
+    client: 'Client',
+    lineItems: 'Line items',
+    vatRate: 'VAT rate (%)',
+    notesBank: 'Notes / Bank details',
+    saveToClients: 'Save to clients',
+    clickClientBelow: 'Click a client below to fill',
+    loadingClients: 'Loading clients...',
+    noClientsYet: 'No saved clients yet. Save one above.',
+    loadingInvoices: 'Loading...',
+    serviceDescriptionPlaceholder: 'Service description',
+    serviceDescriptionPreview: 'Enter service description...',
+    subtotal: 'Subtotal',
+    total: 'TOTAL',
+    billTo: 'Bill to:',
+    noteLabel: 'Note:',
+    // NEW:
+    newInvoiceBtn: 'New invoice',
+    saveBtn: 'Save',
+    downloadPdfBtn: 'Download PDF',
+    invoiceTitle: 'INVOICE',
+    description: 'Description',
+    quantity: 'Quantity',
+    price: 'Price',
+    unitPrice: 'Unit price',
+    vatShort: 'VAT',
+    addNewLine: 'Add new line',
+    clientNamePlaceholder: 'Client name',
+    createdWithBillcraft: 'Created with BillCraft',
+    saveCompanyInfo: 'Save as default company info',
+        clientNameCompanyPlaceholder: 'Client name / Company',
+    clientEmailPlaceholder: 'Client email',
+    defaultNote: 'Payment must be made within 7 business days. Thank you!',
+
+  },
+  tr: {
+    myInvoices: 'Faturalarım',
+    noInvoiceYet: 'Henüz kayıtlı fatura yok.',
+    invoiceDetails: 'Fatura detayları',
+    invoiceNo: 'Fatura no',
+    currency: 'Para birimi',
+    date: 'Tarih',
+    dueDate: 'Vade tarihi',
+    senderYou: 'Gönderen (siz)',
+    client: 'Müşteri',
+    lineItems: 'Kalemler',
+    vatRate: 'KDV oranı (%)',
+    notesBank: 'Notlar / Banka bilgileri',
+    saveToClients: 'Müşterilere kaydet',
+    clickClientBelow: 'Aşağıdan bir müşteri seçin',
+    loadingClients: 'Müşteriler yükleniyor...',
+    noClientsYet: 'Henüz kayıtlı müşteri yok. Yukarıdan ekleyin.',
+    loadingInvoices: 'Yükleniyor...',
+    serviceDescriptionPlaceholder: 'Hizmet açıklaması',
+    serviceDescriptionPreview: 'Hizmet açıklaması girin...',
+    subtotal: 'Ara toplam',
+    total: 'TOPLAM',
+    billTo: 'Fatura edilen:',
+    noteLabel: 'Not:',
+    // NEW:
+    newInvoiceBtn: 'Yeni fatura',
+    saveBtn: 'Kaydet',
+    downloadPdfBtn: 'PDF indir',
+    invoiceTitle: 'FATURA',
+    description: 'Açıklama',
+    quantity: 'Adet',
+    price: 'Fiyat',
+    unitPrice: 'Birim fiyat',
+    vatShort: 'KDV',
+    addNewLine: 'Yeni satır ekle',
+    clientNamePlaceholder: 'Müşteri adı',
+    createdWithBillcraft: 'BillCraft ile oluşturuldu',
+    saveCompanyInfo: 'Varsayılan şirket bilgisi olarak kaydet',
+        clientNameCompanyPlaceholder: 'Müşteri adı / Şirket',
+    clientEmailPlaceholder: 'Müşteri e-posta',
+    defaultNote: 'Ödeme 7 iş günü içinde yapılmalıdır. Teşekkürler!',
+
+  },
+  hu: {
+  myInvoices: 'Számláim',
+  noInvoiceYet: 'Nincs még elmentett számla.',
+  invoiceDetails: 'Számla adatai',
+  invoiceNo: 'Számlaszám',
+  currency: 'Pénznem',
+  date: 'Dátum',
+  dueDate: 'Fizetési határidő',
+  senderYou: 'Kibocsátó (Ön)',
+  client: 'Ügyfél',
+  lineItems: 'Tételek',
+  vatRate: 'ÁFA (%)',
+  notesBank: 'Megjegyzések / Banki adatok',
+  saveToClients: 'Mentés ügyfelekhez',
+  clickClientBelow: 'Válasszon ügyfelet alul',
+  loadingClients: 'Ügyfelek betöltése...',
+  noClientsYet: 'Még nincs mentett ügyfél.',
+  loadingInvoices: 'Betöltés...',
+  serviceDescriptionPlaceholder: 'Szolgáltatás leírása',
+  serviceDescriptionPreview: 'Írja be a szolgáltatás leírását...',
+  subtotal: 'Részösszeg',
+  total: 'ÖSSZESEN',
+  billTo: 'Számlázva:',
+  noteLabel: 'Megjegyzés:',
+  
+  newInvoiceBtn: 'Új számla',
+  saveBtn: 'Mentés',
+  downloadPdfBtn: 'PDF letöltése',
+  invoiceTitle: 'SZÁMLA',
+  description: 'Leírás',
+  quantity: 'Mennyiség',
+  price: 'Ár',
+  unitPrice: 'Egységár',
+  vatShort: 'ÁFA',
+  addNewLine: 'Új tétel hozzáadása',
+  clientNamePlaceholder: 'Ügyfél neve',
+  createdWithBillcraft: 'Készült a BillCraft segítségével',
+  saveCompanyInfo: 'Mentés alapértelmezett cégadatként',
+
+  clientNameCompanyPlaceholder: 'Ügyfél neve / Cég',
+  clientEmailPlaceholder: 'Ügyfél email',
+  defaultNote: 'A fizetésnek 7 munkanapon belül kell megtörténnie. Köszönjük!',
+},
+fr: {
+  myInvoices: 'Mes factures',
+  noInvoiceYet: 'Aucune facture enregistrée.',
+  invoiceDetails: 'Détails de la facture',
+  invoiceNo: 'N° facture',
+  currency: 'Devise',
+  date: 'Date',
+  dueDate: 'Date d’échéance',
+  senderYou: 'Émetteur (vous)',
+  client: 'Client',
+  lineItems: 'Éléments',
+  vatRate: 'TVA (%)',
+  notesBank: 'Notes / Coordonnées bancaires',
+  saveToClients: 'Enregistrer dans les clients',
+  clickClientBelow: 'Cliquez sur un client ci-dessous',
+  loadingClients: 'Chargement des clients...',
+  noClientsYet: 'Aucun client enregistré.',
+  loadingInvoices: 'Chargement...',
+  serviceDescriptionPlaceholder: 'Description du service',
+  serviceDescriptionPreview: 'Saisissez la description du service...',
+  subtotal: 'Sous-total',
+  total: 'TOTAL',
+  billTo: 'Facturé à :',
+  noteLabel: 'Note :',
+  
+  newInvoiceBtn: 'Nouvelle facture',
+  saveBtn: 'Enregistrer',
+  downloadPdfBtn: 'Télécharger PDF',
+  invoiceTitle: 'FACTURE',
+  description: 'Description',
+  quantity: 'Quantité',
+  price: 'Prix',
+  unitPrice: 'Prix unitaire',
+  vatShort: 'TVA',
+  addNewLine: 'Ajouter une ligne',
+  clientNamePlaceholder: 'Nom du client',
+  createdWithBillcraft: 'Créé avec BillCraft',
+  saveCompanyInfo: 'Enregistrer comme infos par défaut',
+
+  clientNameCompanyPlaceholder: 'Nom du client / Société',
+  clientEmailPlaceholder: 'Email du client',
+  defaultNote: 'Le paiement doit être effectué dans les 7 jours ouvrables. Merci!',
+},
+it: {
+  myInvoices: 'Le mie fatture',
+  noInvoiceYet: 'Nessuna fattura salvata.',
+  invoiceDetails: 'Dettagli fattura',
+  invoiceNo: 'Numero fattura',
+  currency: 'Valuta',
+  date: 'Data',
+  dueDate: 'Data di scadenza',
+  senderYou: 'Emittente (tu)',
+  client: 'Cliente',
+  lineItems: 'Articoli',
+  vatRate: 'IVA (%)',
+  notesBank: 'Note / Dati bancari',
+  saveToClients: 'Salva nei clienti',
+  clickClientBelow: 'Seleziona un cliente qui sotto',
+  loadingClients: 'Caricamento clienti...',
+  noClientsYet: 'Nessun cliente salvato.',
+  loadingInvoices: 'Caricamento...',
+  serviceDescriptionPlaceholder: 'Descrizione del servizio',
+  serviceDescriptionPreview: 'Inserisci la descrizione del servizio...',
+  subtotal: 'Subtotale',
+  total: 'TOTALE',
+  billTo: 'Fatturato a:',
+  noteLabel: 'Nota:',
+  
+  newInvoiceBtn: 'Nuova fattura',
+  saveBtn: 'Salva',
+  downloadPdfBtn: 'Scarica PDF',
+  invoiceTitle: 'FATTURA',
+  description: 'Descrizione',
+  quantity: 'Quantità',
+  price: 'Prezzo',
+  unitPrice: 'Prezzo unitario',
+  vatShort: 'IVA',
+  addNewLine: 'Aggiungi una riga',
+  clientNamePlaceholder: 'Nome cliente',
+  createdWithBillcraft: 'Creato con BillCraft',
+  saveCompanyInfo: 'Salva come info aziendali predefinite',
+
+  clientNameCompanyPlaceholder: 'Nome cliente / Azienda',
+  clientEmailPlaceholder: 'Email cliente',
+  defaultNote: 'Il pagamento deve essere effettuato entro 7 giorni lavorativi. Grazie!',
+},
+de: {
+  myInvoices: 'Meine Rechnungen',
+  noInvoiceYet: 'Noch keine Rechnung gespeichert.',
+  invoiceDetails: 'Rechnungsdetails',
+  invoiceNo: 'Rechnungsnummer',
+  currency: 'Währung',
+  date: 'Datum',
+  dueDate: 'Fälligkeitsdatum',
+  senderYou: 'Absender (Sie)',
+  client: 'Kunde',
+  lineItems: 'Positionen',
+  vatRate: 'MwSt (%)',
+  notesBank: 'Notizen / Bankdaten',
+  saveToClients: 'Zum Kunden speichern',
+  clickClientBelow: 'Klicken Sie unten auf einen Kunden',
+  loadingClients: 'Kunden werden geladen...',
+  noClientsYet: 'Keine gespeicherten Kunden.',
+  loadingInvoices: 'Wird geladen...',
+  serviceDescriptionPlaceholder: 'Leistungsbeschreibung',
+  serviceDescriptionPreview: 'Beschreibung eingeben...',
+  subtotal: 'Zwischensumme',
+  total: 'GESAMT',
+  billTo: 'Rechnung an:',
+  noteLabel: 'Notiz:',
+  
+  newInvoiceBtn: 'Neue Rechnung',
+  saveBtn: 'Speichern',
+  downloadPdfBtn: 'PDF herunterladen',
+  invoiceTitle: 'RECHNUNG',
+  description: 'Beschreibung',
+  quantity: 'Menge',
+  price: 'Preis',
+  unitPrice: 'Stückpreis',
+  vatShort: 'MwSt',
+  addNewLine: 'Neue Zeile hinzufügen',
+  clientNamePlaceholder: 'Kundenname',
+  createdWithBillcraft: 'Erstellt mit BillCraft',
+  saveCompanyInfo: 'Als Standard Firmendaten speichern',
+
+  clientNameCompanyPlaceholder: 'Kundenname / Firma',
+  clientEmailPlaceholder: 'Kunden-E-Mail',
+  defaultNote: 'Die Zahlung muss innerhalb von 7 Werktagen erfolgen. Danke!',
+},
+es: {
+  myInvoices: 'Mis facturas',
+  noInvoiceYet: 'Aún no hay facturas guardadas.',
+  invoiceDetails: 'Detalles de la factura',
+  invoiceNo: 'Nº factura',
+  currency: 'Moneda',
+  date: 'Fecha',
+  dueDate: 'Fecha de vencimiento',
+  senderYou: 'Emisor (tú)',
+  client: 'Cliente',
+  lineItems: 'Conceptos',
+  vatRate: 'IVA (%)',
+  notesBank: 'Notas / Datos bancarios',
+  saveToClients: 'Guardar en clientes',
+  clickClientBelow: 'Haz clic en un cliente abajo',
+  loadingClients: 'Cargando clientes...',
+  noClientsYet: 'No hay clientes guardados.',
+  loadingInvoices: 'Cargando...',
+  serviceDescriptionPlaceholder: 'Descripción del servicio',
+  serviceDescriptionPreview: 'Ingresa la descripción del servicio...',
+  subtotal: 'Subtotal',
+  total: 'TOTAL',
+  billTo: 'Facturado a:',
+  noteLabel: 'Nota:',
+  
+  newInvoiceBtn: 'Nueva factura',
+  saveBtn: 'Guardar',
+  downloadPdfBtn: 'Descargar PDF',
+  invoiceTitle: 'FACTURA',
+  description: 'Descripción',
+  quantity: 'Cantidad',
+  price: 'Precio',
+  unitPrice: 'Precio unitario',
+  vatShort: 'IVA',
+  addNewLine: 'Agregar línea',
+  clientNamePlaceholder: 'Nombre del cliente',
+  createdWithBillcraft: 'Creado con BillCraft',
+  saveCompanyInfo: 'Guardar como datos predeterminados',
+
+  clientNameCompanyPlaceholder: 'Nombre del cliente / Empresa',
+  clientEmailPlaceholder: 'Correo del cliente',
+  defaultNote: 'El pago debe realizarse dentro de 7 días hábiles. ¡Gracias!',
+},
+
+};
+
+
 // ========================
 // TOP LEVEL APP (AUTH + BILLCRAFT)
 // ========================
@@ -230,6 +536,13 @@ function BillCraftApp({ user }) {
   const MIN_SIDEBAR_WIDTH = 260;
   const MAX_SIDEBAR_WIDTH = 600;
 
+  // Language
+  const [language, setLanguage] = useState('en');
+  const t = (key) =>
+    (translations[language] && translations[language][key]) ||
+    translations.en[key] ||
+    key;
+
   // Resizable sidebar, default max width
   const [sidebarWidth, setSidebarWidth] = useState(MAX_SIDEBAR_WIDTH);
   const [isResizing, setIsResizing] = useState(false);
@@ -250,7 +563,9 @@ function BillCraftApp({ user }) {
     client: { name: '', email: '', address: '' },
     currency: '₺',
     taxRate: 20,
-    note: 'Payment must be made within 7 business days. Thank you!',
+    note: language === 'tr'
+        ? translations.tr.defaultNote
+        : translations.en.defaultNote,
     logoDataUrl: null,
   });
 
@@ -268,7 +583,7 @@ function BillCraftApp({ user }) {
   const [savedInvoices, setSavedInvoices] = useState([]);
   const [invoicesLoading, setInvoicesLoading] = useState(true);
 
-  // NEW: clients state
+  // Clients state
   const [clients, setClients] = useState([]);
   const [clientsLoading, setClientsLoading] = useState(true);
 
@@ -293,8 +608,8 @@ function BillCraftApp({ user }) {
     reader.readAsDataURL(file);
   };
 
-  // Load user settings (default sender, currency, tax, logo)
-    useEffect(() => {
+  // Load user settings (default sender, currency, tax, logo, language, invoice number config)
+  useEffect(() => {
     if (!user) return;
 
     const fetchUserSettings = async () => {
@@ -317,7 +632,10 @@ function BillCraftApp({ user }) {
             logoDataUrl: data.logoDataUrl || prev.logoDataUrl,
           }));
 
-          // Invoice numarası ayarlarını da yükle
+          if (data.language === 'tr' || data.language === 'en') {
+            setLanguage(data.language);
+          }
+
           setInvoiceNumberConfig((prev) => ({
             prefix: data.invoicePrefix || prev.prefix,
             next:
@@ -333,7 +651,6 @@ function BillCraftApp({ user }) {
 
     fetchUserSettings();
   }, [user]);
-
 
   // Sidebar resizing events
   useEffect(() => {
@@ -394,7 +711,7 @@ function BillCraftApp({ user }) {
     return () => unsub();
   }, [user]);
 
-  // NEW: listen clients from Firestore
+  // Listen clients from Firestore
   useEffect(() => {
     if (!user) return;
 
@@ -423,11 +740,10 @@ function BillCraftApp({ user }) {
     return () => unsub();
   }, [user]);
 
-// Otomatik fatura numarası üret ve counter'ı Firestore'da güncelle
+  // Auto invoice number
   const generateAndSaveNextInvoiceNumber = async () => {
     const { prefix, next } = invoiceNumberConfig;
 
-    // 001, 002, 003 şeklinde 3 haneli padding
     const newNumber = `${prefix}${String(next).padStart(3, '0')}`;
 
     if (user) {
@@ -466,7 +782,9 @@ function BillCraftApp({ user }) {
       client: { name: '', email: '', address: '' },
       currency: '₺',
       taxRate: 20,
-      note: 'Payment must be made within 7 business days. Thank you!',
+      note: language === 'tr'
+          ? translations.tr.defaultNote
+          : translations.en.defaultNote,
       logoDataUrl: null,
     });
     setItems([
@@ -527,6 +845,7 @@ function BillCraftApp({ user }) {
               defaultCurrency: invoice.currency,
               defaultTaxRate: invoice.taxRate,
               logoDataUrl: invoice.logoDataUrl || null,
+              language,
             },
             { merge: true }
           );
@@ -560,48 +879,45 @@ function BillCraftApp({ user }) {
     }
   };
 
-  // NEW: save current client into clients collection
+  // Save current client
   const handleSaveClient = async () => {
-  if (!user) return;
-  const { name, email, address } = invoice.client;
+    if (!user) return;
+    const { name, email, address } = invoice.client;
 
-  const trimmedName = (name || '').trim();
-  const trimmedEmail = (email || '').trim().toLowerCase();
+    const trimmedName = (name || '').trim();
+    const trimmedEmail = (email || '').trim().toLowerCase();
 
-  if (!trimmedName) {
-    alert('Client name is required');
-    return;
-  }
+    if (!trimmedName) {
+      alert('Client name is required');
+      return;
+    }
 
-  // 👇 Aynı isim + aynı email zaten varsa kaydetme
-  const alreadyExists = clients.some((c) => {
-    const cName = (c.name || '').trim().toLowerCase();
-    const cEmail = (c.email || '').trim().toLowerCase();
-    return cName === trimmedName.toLowerCase() && cEmail === trimmedEmail;
-  });
-
-  if (alreadyExists) {
-    alert('This client already exists ✅');
-    return;
-  }
-
-  try {
-    await addDoc(collection(db, 'clients'), {
-      userId: user.uid,
-      name: trimmedName,
-      email: trimmedEmail,
-      address: (address || '').trim(),
-      createdAt: serverTimestamp(),
+    const alreadyExists = clients.some((c) => {
+      const cName = (c.name || '').trim().toLowerCase();
+      const cEmail = (c.email || '').trim().toLowerCase();
+      return cName === trimmedName.toLowerCase() && cEmail === trimmedEmail;
     });
-    alert('Client saved ✅');
-  } catch (err) {
-    console.error('Error saving client:', err);
-    alert('Client could not be saved ❌');
-  }
-};
 
+    if (alreadyExists) {
+      alert('This client already exists ✅');
+      return;
+    }
 
-  // NEW: select a client to fill invoice.client
+    try {
+      await addDoc(collection(db, 'clients'), {
+        userId: user.uid,
+        name: trimmedName,
+        email: trimmedEmail,
+        address: (address || '').trim(),
+        createdAt: serverTimestamp(),
+      });
+      alert('Client saved ✅');
+    } catch (err) {
+      console.error('Error saving client:', err);
+      alert('Client could not be saved ❌');
+    }
+  };
+
   const handleSelectClient = (client) => {
     setInvoice((prev) => ({
       ...prev,
@@ -614,7 +930,6 @@ function BillCraftApp({ user }) {
     }));
   };
 
-  // NEW: delete client
   const handleDeleteClient = async (id) => {
     if (!user) return;
     const ok = window.confirm('Delete this client?');
@@ -685,7 +1000,8 @@ function BillCraftApp({ user }) {
         className="bg-slate-900 border-r border-slate-800 overflow-y-auto flex flex-col shadow-xl z-10 w-full md:flex-none"
         style={{ width: sidebarWidth }}
       >
-        <div className="p-6 border-b border-slate-800 flex items-center justify-between gap-6 sticky top-0 bg-slate-900 z-20">
+        <div className="p-6 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4 sticky top-0 bg-slate-900 z-20">
+
           <div className="flex items-center gap-2 text-indigo-400">
             <div className="bg-indigo-900/60 p-2 rounded-lg">
               <FileText size={24} />
@@ -694,21 +1010,35 @@ function BillCraftApp({ user }) {
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            {/* Language selector */}
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="hidden sm:block text-[11px] bg-slate-900 border border-slate-700 rounded-full px-3 py-1 text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            >
+              <option value="en">EN</option>
+              <option value="tr">TR</option>
+              <option value="hu">HU</option>
+  <option value="fr">FR</option>
+  <option value="it">IT</option>
+  <option value="de">DE</option>
+  <option value="es">ES</option>
+            </select>
             {/* New + Save group (desktop) */}
             <div className="hidden sm:flex items-center bg-slate-800 rounded-full px-4 py-2 shadow-sm border border-slate-700">
               <button
                 onClick={resetInvoiceForm}
                 className="text-[11px] font-semibold px-4 py-1 rounded-full text-slate-100 hover:bg-slate-700 transition-colors mr-4"
               >
-                New invoice
+                {t('newInvoiceBtn')}
               </button>
 
               <button
                 onClick={handleSaveInvoice}
                 className="text-[11px] font-semibold px-4 py-1 rounded-full text-slate-900 bg-emerald-400 hover:bg-emerald-300 flex items-center gap-1 transition-colors"
               >
-                <Download size={12} /> Save
+                <Download size={12} /> {t('saveBtn')}
               </button>
             </div>
 
@@ -717,7 +1047,7 @@ function BillCraftApp({ user }) {
               onClick={handleDownloadPDF}
               className="text-xs sm:text-sm font-semibold bg-indigo-600 text-white px-4 sm:px-6 py-2 rounded-full shadow-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
             >
-              <Download size={16} /> Download PDF
+              <Download size={16} /> {t('downloadPdfBtn')}
             </button>
           </div>
         </div>
@@ -726,17 +1056,17 @@ function BillCraftApp({ user }) {
           {/* My invoices */}
           <section className="space-y-2">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              My invoices
+              {t('myInvoices')}
             </h3>
 
             {invoicesLoading && (
-              <p className="text-[11px] text-slate-500">Loading...</p>
+              <p className="text-[11px] text-slate-500">
+                {t('loadingInvoices')}
+              </p>
             )}
 
             {!invoicesLoading && savedInvoices.length === 0 && (
-              <p className="text-[11px] text-slate-500">
-                No invoice saved yet.
-              </p>
+              <p className="text-[11px] text-slate-500">{t('noInvoiceYet')}</p>
             )}
 
             <div className="space-y-1 max-h-40 overflow-y-auto pr-1">
@@ -776,12 +1106,12 @@ function BillCraftApp({ user }) {
           {/* Invoice details */}
           <section className="space-y-4">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-              Invoice details
+              {t('invoiceDetails')}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="text-xs font-medium text-slate-300">
-                  Invoice no
+                  {t('invoiceNo')}
                 </label>
                 <div className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2">
                   <Hash size={14} className="text-slate-400" />
@@ -797,7 +1127,7 @@ function BillCraftApp({ user }) {
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-medium text-slate-300">
-                  Currency
+                  {t('currency')}
                 </label>
                 <select
                   className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none text-slate-100"
@@ -815,7 +1145,7 @@ function BillCraftApp({ user }) {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="text-xs font-medium text-slate-300">
-                  Date
+                  {t('date')}
                 </label>
                 <input
                   type="date"
@@ -828,7 +1158,7 @@ function BillCraftApp({ user }) {
               </div>
               <div className="space-y-1">
                 <label className="text-xs font-medium text-slate-300">
-                  Due date
+                  {t('dueDate')}
                 </label>
                 <input
                   type="date"
@@ -846,7 +1176,7 @@ function BillCraftApp({ user }) {
           <section className="space-y-6">
             <div className="space-y-3">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <Briefcase size={14} /> Sender (you)
+                <Briefcase size={14} /> {t('senderYou')}
               </h3>
               <input
                 placeholder="Company / Full name"
@@ -883,17 +1213,17 @@ function BillCraftApp({ user }) {
                   htmlFor="save-default-sender"
                   className="text-[11px] text-slate-400"
                 >
-                  Save as default company info
+                  {t('saveCompanyInfo')}
                 </label>
               </div>
             </div>
 
             <div className="space-y-3">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <User size={14} /> Client
+                <User size={14} /> {t('client')}
               </h3>
               <input
-                placeholder="Client name / Company"
+                placeholder={t('clientNameCompanyPlaceholder')}
                 className="w-full border-b border-slate-700 py-2 text-sm focus:border-indigo-500 outline-none transition-colors bg-transparent text-slate-100"
                 value={invoice.client.name}
                 onChange={(e) =>
@@ -904,7 +1234,7 @@ function BillCraftApp({ user }) {
                 }
               />
               <input
-                placeholder="Client email"
+                placeholder={t('clientEmailPlaceholder')}
                 className="w-full border-b border-slate-700 py-2 text-sm focus:border-indigo-500 outline-none transition-colors bg-transparent text-slate-100"
                 value={invoice.client.email}
                 onChange={(e) =>
@@ -915,29 +1245,27 @@ function BillCraftApp({ user }) {
                 }
               />
 
-              {/* NEW: client actions */}
+              {/* Client actions */}
               <div className="flex items-center justify-between pt-2">
                 <button
                   type="button"
                   onClick={handleSaveClient}
                   className="text-[11px] px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-100 hover:bg-slate-700"
                 >
-                  Save to clients
+                  {t('saveToClients')}
                 </button>
                 <span className="text-[11px] text-slate-500">
-                  Click a client below to fill
+                  {t('clickClientBelow')}
                 </span>
               </div>
 
-              {/* NEW: client list */}
+              {/* Client list */}
               <div className="mt-2 max-h-32 overflow-y-auto pr-1 space-y-1 text-[11px]">
                 {clientsLoading && (
-                  <p className="text-slate-500">Loading clients...</p>
+                  <p className="text-slate-500">{t('loadingClients')}</p>
                 )}
                 {!clientsLoading && clients.length === 0 && (
-                  <p className="text-slate-600">
-                    No saved clients yet. Save one above.
-                  </p>
+                  <p className="text-slate-600">{t('noClientsYet')}</p>
                 )}
                 {clients.map((client) => (
                   <div
@@ -974,7 +1302,7 @@ function BillCraftApp({ user }) {
           {/* Line items */}
           <section>
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-              Line items
+              {t('lineItems')}
             </h3>
             <div className="space-y-4">
               {items.map((item) => (
@@ -983,7 +1311,7 @@ function BillCraftApp({ user }) {
                   className="bg-slate-800 p-3 rounded-lg border border-slate-700 group relative"
                 >
                   <input
-                    placeholder="Service description"
+                    placeholder={t('serviceDescriptionPlaceholder')}
                     className="w-full bg-transparent font-medium text-sm outline-none mb-2 text-slate-100"
                     value={item.description}
                     onChange={(e) =>
@@ -993,7 +1321,7 @@ function BillCraftApp({ user }) {
                   <div className="flex gap-2">
                     <div className="flex-1">
                       <label className="text-[10px] text-slate-400 uppercase font-bold">
-                        Quantity
+                        {t('quantity')}
                       </label>
                       <input
                         type="number"
@@ -1011,7 +1339,7 @@ function BillCraftApp({ user }) {
                     </div>
                     <div className="flex-1">
                       <label className="text-[10px] text-slate-400 uppercase font-bold">
-                        Unit price
+                        {t('unitPrice')}
                       </label>
                       <input
                         type="number"
@@ -1040,7 +1368,7 @@ function BillCraftApp({ user }) {
                 onClick={addItem}
                 className="w-full py-2 border-2 border-dashed border-slate-700 rounded-lg text-slate-300 text-sm font-medium hover:border-indigo-500 hover:text-indigo-400 transition-colors flex items-center justify-center gap-2"
               >
-                <Plus size={16} /> Add new line
+                <Plus size={16} /> {t('addNewLine')}
               </button>
             </div>
           </section>
@@ -1049,7 +1377,7 @@ function BillCraftApp({ user }) {
           <section className="space-y-4">
             <div className="flex items-center">
               <label className="text-xs font-medium text-slate-300">
-                VAT rate (%)
+                {t('vatRate')}
               </label>
               <input
                 type="number"
@@ -1065,7 +1393,7 @@ function BillCraftApp({ user }) {
             </div>
             <div>
               <label className="text-xs font-medium text-slate-300 block mb-1">
-                Notes / Bank details
+                {t('notesBank')}
               </label>
               <textarea
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm outline-none h-24 resize-none text-slate-100"
@@ -1132,7 +1460,7 @@ function BillCraftApp({ user }) {
                 </div>
 
                 <h1 className="text-4xl font-black text-slate-900 tracking-tight">
-                  INVOICE
+                  {t('invoiceTitle')}
                 </h1>
                 <p className="text-slate-400 font-medium mt-1">
                   #{invoice.number}
@@ -1146,10 +1474,10 @@ function BillCraftApp({ user }) {
                   {invoice.sender.email}
                 </p>
                 <p className="text-sm text-slate-500 mt-4 font-medium">
-                  Date: {invoice.date}
+                  {t('date')}: {invoice.date}
                 </p>
                 <p className="text-sm text-slate-500">
-                  Due date: {invoice.dueDate}
+                  {t('dueDate')}: {invoice.dueDate}
                 </p>
               </div>
             </div>
@@ -1157,10 +1485,10 @@ function BillCraftApp({ user }) {
             {/* Client Info */}
             <div className="mb-12">
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                Bill to:
+                {t('billTo')}
               </h4>
               <h2 className="text-xl font-bold text-slate-800">
-                {invoice.client.name || 'Client name'}
+                {invoice.client.name || t('clientNamePlaceholder')}
               </h2>
               <p className="text-slate-500 text-sm">{invoice.client.email}</p>
             </div>
@@ -1170,24 +1498,24 @@ function BillCraftApp({ user }) {
               <thead>
                 <tr className="border-b-2 border-slate-100">
                   <th className="text-left py-3 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/2">
-                    Description
-                  </th>
-                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Quantity
-                  </th>
-                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Price
-                  </th>
-                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Total
-                  </th>
+  {t('description')}
+</th>
+<th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+  {t('quantity')}
+</th>
+<th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+  {t('price')}
+</th>
+<th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+  {t('total')}
+</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {items.map((item) => (
                   <tr key={item.id}>
                     <td className="py-4 text-sm font-medium">
-                      {item.description || 'Enter service description...'}
+                      {item.description || t('serviceDescriptionPreview')}
                     </td>
                     <td className="py-4 text-sm text-right text-slate-500">
                       {item.quantity}
@@ -1208,15 +1536,15 @@ function BillCraftApp({ user }) {
               <div className="flex justify-end mb-12">
                 <div className="w-1/2 space-y-3">
                   <div className="flex justify-between text-sm text-slate-500">
-                    <span>Subtotal</span>
+                    <span>{t('subtotal')}</span>
                     <span>{formatMoney(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-sm text-slate-500">
-                    <span>VAT ({invoice.taxRate}%)</span>
+                    <span>{t('vatShort')} ({invoice.taxRate}%)</span>
                     <span>{formatMoney(taxAmount)}</span>
                   </div>
                   <div className="flex justify-between text-xl font-bold text-indigo-600 border-t border-slate-200 pt-3">
-                    <span>TOTAL</span>
+                    <span>{t('total')}</span>
                     <span>{formatMoney(total)}</span>
                   </div>
                 </div>
@@ -1224,7 +1552,9 @@ function BillCraftApp({ user }) {
 
               {/* Footer Note */}
               <div className="bg-slate-50 p-4 rounded-lg border border-slate-100 text-sm text-slate-600">
-                <span className="font-bold text-slate-800">Note:</span>{' '}
+                <span className="font-bold text-slate-800">
+                  {t('noteLabel')}
+                </span>{' '}
                 {invoice.note}
               </div>
             </div>
@@ -1232,7 +1562,7 @@ function BillCraftApp({ user }) {
             {/* Branding Watermark */}
             <div className="absolute bottom-8 left-0 w-full text-center opacity-30 pointer-events-none">
               <p className="text-xs font-bold flex items-center justify-center gap-1">
-                <Settings size={12} /> Created with BillCraft
+                <Settings size={12} /> {t('createdWithBillcraft')}
               </p>
             </div>
           </div>
