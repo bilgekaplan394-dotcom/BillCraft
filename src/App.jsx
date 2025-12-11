@@ -227,12 +227,18 @@ export default function App() {
 // BILLCRAFT MAIN UI
 // ========================
 function BillCraftApp({ user }) {
-  // Resizable sidebar
   const MIN_SIDEBAR_WIDTH = 260;
   const MAX_SIDEBAR_WIDTH = 600;
-  const [sidebarWidth, setSidebarWidth] = useState(MAX_SIDEBAR_WIDTH); // px
+
+  // Resizable sidebar, default max width
+  const [sidebarWidth, setSidebarWidth] = useState(MAX_SIDEBAR_WIDTH);
   const [isResizing, setIsResizing] = useState(false);
 
+  // Auto invoice number config
+  const [invoiceNumberConfig, setInvoiceNumberConfig] = useState({
+    prefix: 'INV-2024-',
+    next: 1,
+  });
 
   const [invoice, setInvoice] = useState({
     number: 'INV-2024-001',
@@ -262,6 +268,10 @@ function BillCraftApp({ user }) {
   const [savedInvoices, setSavedInvoices] = useState([]);
   const [invoicesLoading, setInvoicesLoading] = useState(true);
 
+  // NEW: clients state
+  const [clients, setClients] = useState([]);
+  const [clientsLoading, setClientsLoading] = useState(true);
+
   const subtotal = items.reduce(
     (acc, item) => acc + item.quantity * item.price,
     0
@@ -284,7 +294,7 @@ function BillCraftApp({ user }) {
   };
 
   // Load user settings (default sender, currency, tax, logo)
-  useEffect(() => {
+    useEffect(() => {
     if (!user) return;
 
     const fetchUserSettings = async () => {
@@ -293,6 +303,7 @@ function BillCraftApp({ user }) {
         const snap = await getDoc(userRef);
         if (snap.exists()) {
           const data = snap.data();
+
           setInvoice((prev) => ({
             ...prev,
             sender: data.sender
@@ -305,6 +316,15 @@ function BillCraftApp({ user }) {
                 : prev.taxRate,
             logoDataUrl: data.logoDataUrl || prev.logoDataUrl,
           }));
+
+          // Invoice numarası ayarlarını da yükle
+          setInvoiceNumberConfig((prev) => ({
+            prefix: data.invoicePrefix || prev.prefix,
+            next:
+              typeof data.nextInvoiceNumber === 'number'
+                ? data.nextInvoiceNumber
+                : prev.next,
+          }));
         }
       } catch (err) {
         console.error('Error fetching user settings:', err);
@@ -313,6 +333,7 @@ function BillCraftApp({ user }) {
 
     fetchUserSettings();
   }, [user]);
+
 
   // Sidebar resizing events
   useEffect(() => {
@@ -348,14 +369,14 @@ function BillCraftApp({ user }) {
   useEffect(() => {
     if (!user) return;
 
-    const q = query(
+    const qInvoices = query(
       collection(db, 'invoices'),
       where('userId', '==', user.uid),
       orderBy('createdAt', 'desc')
     );
 
     const unsub = onSnapshot(
-      q,
+      qInvoices,
       (snapshot) => {
         const list = snapshot.docs.map((docSnap) => ({
           id: docSnap.id,
@@ -373,9 +394,70 @@ function BillCraftApp({ user }) {
     return () => unsub();
   }, [user]);
 
-  const resetInvoiceForm = () => {
+  // NEW: listen clients from Firestore
+  useEffect(() => {
+    if (!user) return;
+
+    const qClients = query(
+      collection(db, 'clients'),
+      where('userId', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    );
+
+    const unsub = onSnapshot(
+      qClients,
+      (snapshot) => {
+        const list = snapshot.docs.map((docSnap) => ({
+          id: docSnap.id,
+          ...docSnap.data(),
+        }));
+        setClients(list);
+        setClientsLoading(false);
+      },
+      (error) => {
+        console.error('Error fetching clients:', error);
+        setClientsLoading(false);
+      }
+    );
+
+    return () => unsub();
+  }, [user]);
+
+// Otomatik fatura numarası üret ve counter'ı Firestore'da güncelle
+  const generateAndSaveNextInvoiceNumber = async () => {
+    const { prefix, next } = invoiceNumberConfig;
+
+    // 001, 002, 003 şeklinde 3 haneli padding
+    const newNumber = `${prefix}${String(next).padStart(3, '0')}`;
+
+    if (user) {
+      try {
+        const userRef = doc(db, 'users', user.uid);
+        await setDoc(
+          userRef,
+          {
+            invoicePrefix: prefix,
+            nextInvoiceNumber: next + 1,
+          },
+          { merge: true }
+        );
+        setInvoiceNumberConfig((prev) => ({
+          ...prev,
+          next: next + 1,
+        }));
+      } catch (err) {
+        console.error('Error updating invoice number counter:', err);
+      }
+    }
+
+    return newNumber;
+  };
+
+  const resetInvoiceForm = async () => {
+    const newNumber = await generateAndSaveNextInvoiceNumber();
+
     setInvoice({
-      number: 'INV-2024-001',
+      number: newNumber,
       date: new Date().toISOString().slice(0, 10),
       dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         .toISOString()
@@ -478,6 +560,75 @@ function BillCraftApp({ user }) {
     }
   };
 
+  // NEW: save current client into clients collection
+  const handleSaveClient = async () => {
+  if (!user) return;
+  const { name, email, address } = invoice.client;
+
+  const trimmedName = (name || '').trim();
+  const trimmedEmail = (email || '').trim().toLowerCase();
+
+  if (!trimmedName) {
+    alert('Client name is required');
+    return;
+  }
+
+  // 👇 Aynı isim + aynı email zaten varsa kaydetme
+  const alreadyExists = clients.some((c) => {
+    const cName = (c.name || '').trim().toLowerCase();
+    const cEmail = (c.email || '').trim().toLowerCase();
+    return cName === trimmedName.toLowerCase() && cEmail === trimmedEmail;
+  });
+
+  if (alreadyExists) {
+    alert('This client already exists ✅');
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, 'clients'), {
+      userId: user.uid,
+      name: trimmedName,
+      email: trimmedEmail,
+      address: (address || '').trim(),
+      createdAt: serverTimestamp(),
+    });
+    alert('Client saved ✅');
+  } catch (err) {
+    console.error('Error saving client:', err);
+    alert('Client could not be saved ❌');
+  }
+};
+
+
+  // NEW: select a client to fill invoice.client
+  const handleSelectClient = (client) => {
+    setInvoice((prev) => ({
+      ...prev,
+      client: {
+        ...prev.client,
+        name: client.name || '',
+        email: client.email || '',
+        address: client.address || '',
+      },
+    }));
+  };
+
+  // NEW: delete client
+  const handleDeleteClient = async (id) => {
+    if (!user) return;
+    const ok = window.confirm('Delete this client?');
+    if (!ok) return;
+
+    try {
+      const ref = doc(db, 'clients', id);
+      await deleteDoc(ref);
+    } catch (err) {
+      console.error('Error deleting client:', err);
+      alert('Client could not be deleted ❌');
+    }
+  };
+
   const handleDownloadPDF = () => {
     if (!invoiceRef.current) return;
 
@@ -528,14 +679,12 @@ function BillCraftApp({ user }) {
   };
 
   return (
-      <div className="min-h-screen bg-slate-950 font-sans text-slate-100 flex flex-col md:flex-row items-stretch">
-
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-100 flex flex-col md:flex-row items-stretch">
       {/* LEFT PANEL: EDITOR */}
       <div
-  className="bg-slate-900 border-r border-slate-800 overflow-y-auto flex flex-col z-10 w-full md:flex-none"
-  style={{ width: sidebarWidth }}
->
-
+        className="bg-slate-900 border-r border-slate-800 overflow-y-auto flex flex-col shadow-xl z-10 w-full md:flex-none"
+        style={{ width: sidebarWidth }}
+      >
         <div className="p-6 border-b border-slate-800 flex items-center justify-between gap-6 sticky top-0 bg-slate-900 z-20">
           <div className="flex items-center gap-2 text-indigo-400">
             <div className="bg-indigo-900/60 p-2 rounded-lg">
@@ -574,7 +723,6 @@ function BillCraftApp({ user }) {
         </div>
 
         <div className="p-6 space-y-8 flex-1 pb-10">
-
           {/* My invoices */}
           <section className="space-y-2">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
@@ -766,6 +914,60 @@ function BillCraftApp({ user }) {
                   })
                 }
               />
+
+              {/* NEW: client actions */}
+              <div className="flex items-center justify-between pt-2">
+                <button
+                  type="button"
+                  onClick={handleSaveClient}
+                  className="text-[11px] px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-100 hover:bg-slate-700"
+                >
+                  Save to clients
+                </button>
+                <span className="text-[11px] text-slate-500">
+                  Click a client below to fill
+                </span>
+              </div>
+
+              {/* NEW: client list */}
+              <div className="mt-2 max-h-32 overflow-y-auto pr-1 space-y-1 text-[11px]">
+                {clientsLoading && (
+                  <p className="text-slate-500">Loading clients...</p>
+                )}
+                {!clientsLoading && clients.length === 0 && (
+                  <p className="text-slate-600">
+                    No saved clients yet. Save one above.
+                  </p>
+                )}
+                {clients.map((client) => (
+                  <div
+                    key={client.id}
+                    className="flex items-center gap-1 group"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => handleSelectClient(client)}
+                      className="flex-1 px-2 py-1 rounded-lg border border-slate-700 hover:border-indigo-400 hover:bg-slate-800 text-left transition-colors"
+                    >
+                      <div className="font-semibold text-slate-100 truncate">
+                        {client.name}
+                      </div>
+                      {client.email && (
+                        <div className="text-[10px] text-slate-400 truncate">
+                          {client.email}
+                        </div>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteClient(client.id)}
+                      className="p-1 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
 
