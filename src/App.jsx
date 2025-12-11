@@ -37,10 +37,12 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  getDoc,
+  setDoc,
 } from 'firebase/firestore';
 
 // ========================
-// ÜST SEVİYE APP (AUTH + BILLCRAFT)
+// TOP LEVEL APP (AUTH + BILLCRAFT)
 // ========================
 export default function App() {
   const [authLoading, setAuthLoading] = useState(true);
@@ -51,7 +53,7 @@ export default function App() {
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
 
-  // Kullanıcıyı dinle
+  // Listen user
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser || null);
@@ -80,7 +82,6 @@ export default function App() {
     setAuthError('');
     try {
       await signInWithPopup(auth, googleProvider);
-      // başarılı olunca onAuthStateChanged zaten user'ı set ediyor
     } catch (err) {
       setAuthError(err.message);
     }
@@ -92,17 +93,17 @@ export default function App() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-slate-100">
-        <div className="animate-pulse text-sm">BillCraft yükleniyor...</div>
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-100">
+        <div className="animate-pulse text-sm">Loading BillCraft...</div>
       </div>
     );
   }
 
-  // Kullanıcı yoksa: Auth ekranı
+  // No user: Auth screen
   if (!user) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-slate-950 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
           <div className="flex items-center gap-3 mb-6">
             <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-md">
               <FileText size={24} />
@@ -110,7 +111,7 @@ export default function App() {
             <div>
               <h1 className="text-xl font-bold text-white">BillCraft</h1>
               <p className="text-xs text-slate-400">
-                Basit ve hızlı fatura oluşturma aracı
+                Simple & fast invoicing tool
               </p>
             </div>
           </div>
@@ -121,44 +122,44 @@ export default function App() {
               className={`flex-1 py-2 text-sm font-medium ${
                 mode === 'signin'
                   ? 'bg-slate-800 text-white'
-                  : 'bg-slate-950 text-slate-500'
+                  : 'bg-slate-900 text-slate-500'
               }`}
             >
-              Giriş Yap
+              Sign in
             </button>
             <button
               onClick={() => setMode('signup')}
               className={`flex-1 py-2 text-sm font-medium ${
                 mode === 'signup'
                   ? 'bg-slate-800 text-white'
-                  : 'bg-slate-950 text-slate-500'
+                  : 'bg-slate-900 text-slate-500'
               }`}
             >
-              Kayıt Ol
+              Sign up
             </button>
           </div>
 
           <form onSubmit={handleAuth} className="space-y-4">
             <div className="space-y-1">
-              <label className="text-xs text-slate-400">E-posta</label>
+              <label className="text-xs text-slate-400">Email</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-indigo-500"
-                placeholder="ornek@mail.com"
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-indigo-500"
+                placeholder="example@mail.com"
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-slate-400">Şifre</label>
+              <label className="text-xs text-slate-400">Password</label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-indigo-500"
-                placeholder="En az 6 karakter"
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-indigo-500"
+                placeholder="At least 6 characters"
               />
             </div>
 
@@ -173,10 +174,9 @@ export default function App() {
               className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 mt-2"
             >
               <LogIn size={16} />
-              {mode === 'signin' ? 'Giriş Yap' : 'Kayıt Ol'}
+              {mode === 'signin' ? 'Sign in' : 'Sign up'}
             </button>
 
-            {/* Google ile giriş */}
             <button
               type="button"
               onClick={handleGoogleLogin}
@@ -187,11 +187,11 @@ export default function App() {
                 alt="Google"
                 className="w-5 h-5"
               />
-              Google ile devam et
+              Continue with Google
             </button>
 
             <p className="text-[10px] text-slate-500 text-center mt-3">
-              Devam ederek kullanım şartlarını kabul etmiş olursun.
+              By continuing, you accept the terms of use.
             </p>
           </form>
         </div>
@@ -199,24 +199,23 @@ export default function App() {
     );
   }
 
-  // Kullanıcı varsa: BillCraft ana uygulama
+  // User exists: main app
   return (
     <div className="relative">
-      {/* Üst user bar */}
-      <div className="fixed top-0 left-0 right-0 z-30 bg-slate-900/80 backdrop-blur border-b border-slate-800 px-4 py-2 flex items-center justify-between">
+      {/* Top user bar */}
+      <div className="fixed top-0 left-0 right-0 z-30 bg-slate-950/80 backdrop-blur border-b border-slate-800 px-4 py-2 flex items-center justify-between">
         <div className="text-xs text-slate-300">
-          Giriş yapan:{' '}
+          Signed in as:{' '}
           <span className="font-medium text-white">{user.email}</span>
         </div>
         <button
           onClick={handleLogout}
           className="text-xs flex items-center gap-1 px-3 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700"
         >
-          <LogOut size={14} /> Çıkış yap
+          <LogOut size={14} /> Sign out
         </button>
       </div>
 
-      {/* Üst bar boşluğu */}
       <div className="pt-10">
         <BillCraftApp user={user} />
       </div>
@@ -225,10 +224,16 @@ export default function App() {
 }
 
 // ========================
-// BILLCRAFT ANA ARAYÜZ
+// BILLCRAFT MAIN UI
 // ========================
 function BillCraftApp({ user }) {
-  // Fatura Verileri State'i
+  // Resizable sidebar
+  const MIN_SIDEBAR_WIDTH = 260;
+  const MAX_SIDEBAR_WIDTH = 600;
+  const [sidebarWidth, setSidebarWidth] = useState(MAX_SIDEBAR_WIDTH); // px
+  const [isResizing, setIsResizing] = useState(false);
+
+
   const [invoice, setInvoice] = useState({
     number: 'INV-2024-001',
     date: new Date().toISOString().slice(0, 10),
@@ -239,22 +244,24 @@ function BillCraftApp({ user }) {
     client: { name: '', email: '', address: '' },
     currency: '₺',
     taxRate: 20,
-    note: 'Ödeme 7 iş günü içinde yapılmalıdır. Teşekkürler!',
+    note: 'Payment must be made within 7 business days. Thank you!',
+    logoDataUrl: null,
   });
 
   const [items, setItems] = useState([
-    { id: 1, description: 'Web Tasarım Hizmeti', quantity: 1, price: 5000 },
-    { id: 2, description: 'Logo Tasarımı', quantity: 1, price: 1500 },
+    { id: 1, description: 'Web design service', quantity: 1, price: 5000 },
+    { id: 2, description: 'Logo design', quantity: 1, price: 1500 },
   ]);
 
   const [showProModal, setShowProModal] = useState(false);
   const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
+  const [saveAsDefault, setSaveAsDefault] = useState(true);
+
   const invoiceRef = useRef(null);
 
   const [savedInvoices, setSavedInvoices] = useState([]);
   const [invoicesLoading, setInvoicesLoading] = useState(true);
 
-  // Hesaplamalar
   const subtotal = items.reduce(
     (acc, item) => acc + item.quantity * item.price,
     0
@@ -262,7 +269,82 @@ function BillCraftApp({ user }) {
   const taxAmount = (subtotal * invoice.taxRate) / 100;
   const total = subtotal + taxAmount;
 
-  // Firestore'dan faturaları dinle
+  const handleLogoUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setInvoice((prev) => ({
+        ...prev,
+        logoDataUrl: reader.result,
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Load user settings (default sender, currency, tax, logo)
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchUserSettings = async () => {
+      try {
+        const userRef = doc(db, 'users', user.uid);
+        const snap = await getDoc(userRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          setInvoice((prev) => ({
+            ...prev,
+            sender: data.sender
+              ? { ...prev.sender, ...data.sender }
+              : prev.sender,
+            currency: data.defaultCurrency || prev.currency,
+            taxRate:
+              typeof data.defaultTaxRate === 'number'
+                ? data.defaultTaxRate
+                : prev.taxRate,
+            logoDataUrl: data.logoDataUrl || prev.logoDataUrl,
+          }));
+        }
+      } catch (err) {
+        console.error('Error fetching user settings:', err);
+      }
+    };
+
+    fetchUserSettings();
+  }, [user]);
+
+  // Sidebar resizing events
+  useEffect(() => {
+    if (!isResizing) return;
+
+    const handleMouseMove = (e) => {
+      const newWidth = Math.min(
+        MAX_SIDEBAR_WIDTH,
+        Math.max(MIN_SIDEBAR_WIDTH, e.clientX)
+      );
+      setSidebarWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isResizing, MIN_SIDEBAR_WIDTH, MAX_SIDEBAR_WIDTH]);
+
+  const startResizing = (e) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  // Listen invoices from Firestore
   useEffect(() => {
     if (!user) return;
 
@@ -275,15 +357,15 @@ function BillCraftApp({ user }) {
     const unsub = onSnapshot(
       q,
       (snapshot) => {
-        const list = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
+        const list = snapshot.docs.map((docSnap) => ({
+          id: docSnap.id,
+          ...docSnap.data(),
         }));
         setSavedInvoices(list);
         setInvoicesLoading(false);
       },
       (error) => {
-        console.error('Faturalar çekilirken hata:', error);
+        console.error('Error fetching invoices:', error);
         setInvoicesLoading(false);
       }
     );
@@ -291,13 +373,45 @@ function BillCraftApp({ user }) {
     return () => unsub();
   }, [user]);
 
+  const resetInvoiceForm = () => {
+    setInvoice({
+      number: 'INV-2024-001',
+      date: new Date().toISOString().slice(0, 10),
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .slice(0, 10),
+      sender: { name: '', email: '', address: '' },
+      client: { name: '', email: '', address: '' },
+      currency: '₺',
+      taxRate: 20,
+      note: 'Payment must be made within 7 business days. Thank you!',
+      logoDataUrl: null,
+    });
+    setItems([
+      {
+        id: 1,
+        description: 'Web design service',
+        quantity: 1,
+        price: 5000,
+      },
+      {
+        id: 2,
+        description: 'Logo design',
+        quantity: 1,
+        price: 1500,
+      },
+    ]);
+    setSelectedInvoiceId(null);
+  };
+
   const handleSaveInvoice = async () => {
     if (!user) return;
 
     try {
-      if (selectedInvoiceId) {
-        // Var olan faturayı güncelle
-        const ref = doc(db, 'invoices', selectedInvoiceId);
+      let currentId = selectedInvoiceId;
+
+      if (currentId) {
+        const ref = doc(db, 'invoices', currentId);
         await updateDoc(ref, {
           invoice,
           items,
@@ -305,9 +419,8 @@ function BillCraftApp({ user }) {
           taxAmount,
           total,
         });
-        alert('Fatura güncellendi ✅');
+        alert('Invoice updated ✅');
       } else {
-        // Yeni fatura oluştur
         const docRef = await addDoc(collection(db, 'invoices'), {
           userId: user.uid,
           invoice,
@@ -317,19 +430,38 @@ function BillCraftApp({ user }) {
           total,
           createdAt: serverTimestamp(),
         });
-        setSelectedInvoiceId(docRef.id); // yeni oluşturulanı seçili yap
-        alert('Fatura kaydedildi ✅');
+        currentId = docRef.id;
+        setSelectedInvoiceId(docRef.id);
+        alert('Invoice saved ✅');
+      }
+
+      if (saveAsDefault) {
+        try {
+          const userRef = doc(db, 'users', user.uid);
+          await setDoc(
+            userRef,
+            {
+              sender: invoice.sender,
+              defaultCurrency: invoice.currency,
+              defaultTaxRate: invoice.taxRate,
+              logoDataUrl: invoice.logoDataUrl || null,
+            },
+            { merge: true }
+          );
+        } catch (err) {
+          console.error('Error saving default company info:', err);
+        }
       }
     } catch (err) {
-      console.error('Fatura kaydedilirken hata:', err);
-      alert('Fatura kaydedilemedi ❌');
+      console.error('Error saving invoice:', err);
+      alert('Invoice could not be saved ❌');
     }
   };
 
   const handleDeleteInvoice = async (id) => {
     if (!user) return;
     const confirmDelete = window.confirm(
-      'Bu faturayı silmek istediğine emin misin?'
+      'Are you sure you want to delete this invoice?'
     );
     if (!confirmDelete) return;
 
@@ -337,39 +469,12 @@ function BillCraftApp({ user }) {
       const ref = doc(db, 'invoices', id);
       await deleteDoc(ref);
 
-      // Eğer şu an silinen fatura seçiliyse, formu sıfırla
       if (selectedInvoiceId === id) {
-        setSelectedInvoiceId(null);
-        setInvoice({
-          number: 'INV-2024-001',
-          date: new Date().toISOString().slice(0, 10),
-          dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-            .toISOString()
-            .slice(0, 10),
-          sender: { name: '', email: '', address: '' },
-          client: { name: '', email: '', address: '' },
-          currency: '₺',
-          taxRate: 20,
-          note: 'Ödeme 7 iş günü içinde yapılmalıdır. Teşekkürler!',
-        });
-        setItems([
-          {
-            id: 1,
-            description: 'Web Tasarım Hizmeti',
-            quantity: 1,
-            price: 5000,
-          },
-          {
-            id: 2,
-            description: 'Logo Tasarımı',
-            quantity: 1,
-            price: 1500,
-          },
-        ]);
+        resetInvoiceForm();
       }
     } catch (err) {
-      console.error('Fatura silinirken hata:', err);
-      alert('Fatura silinemedi ❌');
+      console.error('Error deleting invoice:', err);
+      alert('Invoice could not be deleted ❌');
     }
   };
 
@@ -380,7 +485,7 @@ function BillCraftApp({ user }) {
 
     const opt = {
       margin: 0,
-      filename: `${invoice.number || 'fatura'}.pdf`,
+      filename: `${invoice.number || 'invoice'}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
@@ -391,7 +496,6 @@ function BillCraftApp({ user }) {
 
   const loadInvoiceFromDb = (docData) => {
     if (!docData) return;
-
     setInvoice(docData.invoice);
     setItems(docData.items || []);
   };
@@ -413,7 +517,6 @@ function BillCraftApp({ user }) {
     setItems(items.filter((item) => item.id !== id));
   };
 
-  // Para formatı
   const formatMoney = (amount) => {
     return new Intl.NumberFormat('tr-TR', {
       style: 'currency',
@@ -425,90 +528,66 @@ function BillCraftApp({ user }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 font-sans text-slate-800 flex flex-col md:flex-row">
-      {/* SOL PANEL: EDİTÖR */}
-      <div className="w-full md:w-1/3 bg-white border-r border-slate-200 h-screen overflow-y-auto flex flex-col shadow-xl z-10">
-        <div className="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white z-20">
-          <div className="flex items-center gap-2 text-indigo-600">
-            <div className="bg-indigo-100 p-2 rounded-lg">
+      <div className="min-h-screen bg-slate-950 font-sans text-slate-100 flex flex-col md:flex-row items-stretch">
+
+      {/* LEFT PANEL: EDITOR */}
+      <div
+  className="bg-slate-900 border-r border-slate-800 overflow-y-auto flex flex-col z-10 w-full md:flex-none"
+  style={{ width: sidebarWidth }}
+>
+
+        <div className="p-6 border-b border-slate-800 flex items-center justify-between gap-6 sticky top-0 bg-slate-900 z-20">
+          <div className="flex items-center gap-2 text-indigo-400">
+            <div className="bg-indigo-900/60 p-2 rounded-lg">
               <FileText size={24} />
             </div>
-            <h1 className="text-xl font-bold">BillCraft</h1>
+            <h1 className="text-xl font-bold text-white">BillCraft</h1>
           </div>
 
-          {/* Sağ aksiyonlar */}
+          {/* Right actions */}
           <div className="flex items-center gap-4">
-            {/* Yeni + Kaydet grubu (desktop) */}
-            <div className="hidden sm:flex items-center gap-1 bg-slate-50 rounded-full px-2 py-1 shadow-sm">
+            {/* New + Save group (desktop) */}
+            <div className="hidden sm:flex items-center bg-slate-800 rounded-full px-4 py-2 shadow-sm border border-slate-700">
               <button
-                onClick={() => {
-                  setInvoice({
-                    number: 'INV-2024-001',
-                    date: new Date().toISOString().slice(0, 10),
-                    dueDate: new Date(
-                      Date.now() + 7 * 24 * 60 * 60 * 1000
-                    )
-                      .toISOString()
-                      .slice(0, 10),
-                    sender: { name: '', email: '', address: '' },
-                    client: { name: '', email: '', address: '' },
-                    currency: '₺',
-                    taxRate: 20,
-                    note: 'Ödeme 7 iş günü içinde yapılmalıdır. Teşekkürler!',
-                  });
-                  setItems([
-                    {
-                      id: 1,
-                      description: 'Web Tasarım Hizmeti',
-                      quantity: 1,
-                      price: 5000,
-                    },
-                    {
-                      id: 2,
-                      description: 'Logo Tasarımı',
-                      quantity: 1,
-                      price: 1500,
-                    },
-                  ]);
-                  setSelectedInvoiceId(null);
-                }}
-                className="text-[11px] font-semibold px-3 py-1 rounded-full text-slate-600 hover:bg-white transition-colors"
+                onClick={resetInvoiceForm}
+                className="text-[11px] font-semibold px-4 py-1 rounded-full text-slate-100 hover:bg-slate-700 transition-colors mr-4"
               >
-                Yeni Fatura
+                New invoice
               </button>
 
               <button
                 onClick={handleSaveInvoice}
-                className="text-[11px] font-semibold px-3 py-1 rounded-full text-emerald-700 bg-emerald-100 hover:bg-emerald-200 flex items-center gap-1 transition-colors"
+                className="text-[11px] font-semibold px-4 py-1 rounded-full text-slate-900 bg-emerald-400 hover:bg-emerald-300 flex items-center gap-1 transition-colors"
               >
-                <Download size={12} /> Kaydet
+                <Download size={12} /> Save
               </button>
             </div>
 
-            {/* İndir PDF (her zaman görünür) */}
+            {/* Download PDF */}
             <button
               onClick={handleDownloadPDF}
               className="text-xs sm:text-sm font-semibold bg-indigo-600 text-white px-4 sm:px-6 py-2 rounded-full shadow-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
             >
-              <Download size={16} /> İndir PDF
+              <Download size={16} /> Download PDF
             </button>
           </div>
         </div>
 
-        <div className="p-6 space-y-8 flex-1">
-          {/* Faturalarım */}
+        <div className="p-6 space-y-8 flex-1 pb-10">
+
+          {/* My invoices */}
           <section className="space-y-2">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Faturalarım
+              My invoices
             </h3>
 
             {invoicesLoading && (
-              <p className="text-[11px] text-slate-400">Yükleniyor...</p>
+              <p className="text-[11px] text-slate-500">Loading...</p>
             )}
 
             {!invoicesLoading && savedInvoices.length === 0 && (
-              <p className="text-[11px] text-slate-400">
-                Henüz kayıtlı fatura yok.
+              <p className="text-[11px] text-slate-500">
+                No invoice saved yet.
               </p>
             )}
 
@@ -520,12 +599,12 @@ function BillCraftApp({ user }) {
                       loadInvoiceFromDb(inv);
                       setSelectedInvoiceId(inv.id);
                     }}
-                    className="flex-1 text-left text-[11px] px-2 py-1 rounded-lg border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 transition-colors"
+                    className="flex-1 text-left text-[11px] px-2 py-1 rounded-lg border border-slate-700 hover:border-indigo-400 hover:bg-slate-800 transition-colors"
                   >
-                    <div className="font-semibold text-slate-700">
-                      {inv.invoice?.number || '(Numarasız)'}
+                    <div className="font-semibold text-slate-100">
+                      {inv.invoice?.number || '(No number)'}
                     </div>
-                    <div className="text-[10px] text-slate-500 flex justify-between">
+                    <div className="text-[10px] text-slate-400 flex justify-between">
                       <span>{inv.invoice?.date}</span>
                       <span>
                         {inv.total?.toLocaleString('tr-TR')}{' '}
@@ -536,8 +615,8 @@ function BillCraftApp({ user }) {
 
                   <button
                     onClick={() => handleDeleteInvoice(inv.id)}
-                    className="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
-                    title="Sil"
+                    className="p-1 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 transition-colors"
+                    title="Delete"
                   >
                     <Trash2 size={14} />
                   </button>
@@ -546,17 +625,17 @@ function BillCraftApp({ user }) {
             </div>
           </section>
 
-          {/* Fatura Detayları */}
+          {/* Invoice details */}
           <section className="space-y-4">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-              Fatura Bilgileri
+              Invoice details
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-500">
-                  Fatura No
+                <label className="text-xs font-medium text-slate-300">
+                  Invoice no
                 </label>
-                <div className="flex items-center gap-2 bg-slate-50 border rounded-lg px-3 py-2">
+                <div className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2">
                   <Hash size={14} className="text-slate-400" />
                   <input
                     type="text"
@@ -564,22 +643,22 @@ function BillCraftApp({ user }) {
                     onChange={(e) =>
                       setInvoice({ ...invoice, number: e.target.value })
                     }
-                    className="bg-transparent w-full outline-none text-sm font-medium"
+                    className="bg-transparent w-full outline-none text-sm font-medium text-slate-100"
                   />
                 </div>
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-500">
-                  Para Birimi
+                <label className="text-xs font-medium text-slate-300">
+                  Currency
                 </label>
                 <select
-                  className="w-full bg-slate-50 border rounded-lg px-3 py-2 text-sm outline-none"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none text-slate-100"
                   value={invoice.currency}
                   onChange={(e) =>
                     setInvoice({ ...invoice, currency: e.target.value })
                   }
                 >
-                  <option value="₺">₺ (TL)</option>
+                  <option value="₺">₺ (TRY)</option>
                   <option value="$">$ (USD)</option>
                   <option value="€">€ (EUR)</option>
                 </select>
@@ -587,8 +666,8 @@ function BillCraftApp({ user }) {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-500">
-                  Tarih
+                <label className="text-xs font-medium text-slate-300">
+                  Date
                 </label>
                 <input
                   type="date"
@@ -596,12 +675,12 @@ function BillCraftApp({ user }) {
                   onChange={(e) =>
                     setInvoice({ ...invoice, date: e.target.value })
                   }
-                  className="w-full bg-slate-50 border rounded-lg px-3 py-2 text-sm outline-none"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none text-slate-100"
                 />
               </div>
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-500">
-                  Son Ödeme
+                <label className="text-xs font-medium text-slate-300">
+                  Due date
                 </label>
                 <input
                   type="date"
@@ -609,21 +688,21 @@ function BillCraftApp({ user }) {
                   onChange={(e) =>
                     setInvoice({ ...invoice, dueDate: e.target.value })
                   }
-                  className="w-full bg-slate-50 border rounded-lg px-3 py-2 text-sm outline-none"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none text-slate-100"
                 />
               </div>
             </div>
           </section>
 
-          {/* Gönderen & Alıcı */}
+          {/* Sender & Client */}
           <section className="space-y-6">
             <div className="space-y-3">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <Briefcase size={14} /> Gönderen (Sen)
+                <Briefcase size={14} /> Sender (you)
               </h3>
               <input
-                placeholder="Şirket / Adın Soyadın"
-                className="w-full border-b border-slate-200 py-2 text-sm focus:border-indigo-500 outline-none transition-colors"
+                placeholder="Company / Full name"
+                className="w-full border-b border-slate-700 py-2 text-sm focus:border-indigo-500 outline-none transition-colors bg-transparent text-slate-100"
                 value={invoice.sender.name}
                 onChange={(e) =>
                   setInvoice({
@@ -633,8 +712,8 @@ function BillCraftApp({ user }) {
                 }
               />
               <input
-                placeholder="E-posta Adresi"
-                className="w-full border-b border-slate-200 py-2 text-sm focus:border-indigo-500 outline-none transition-colors"
+                placeholder="Email address"
+                className="w-full border-b border-slate-700 py-2 text-sm focus:border-indigo-500 outline-none transition-colors bg-transparent text-slate-100"
                 value={invoice.sender.email}
                 onChange={(e) =>
                   setInvoice({
@@ -643,15 +722,31 @@ function BillCraftApp({ user }) {
                   })
                 }
               />
+
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  id="save-default-sender"
+                  type="checkbox"
+                  className="w-3 h-3 accent-indigo-500"
+                  checked={saveAsDefault}
+                  onChange={(e) => setSaveAsDefault(e.target.checked)}
+                />
+                <label
+                  htmlFor="save-default-sender"
+                  className="text-[11px] text-slate-400"
+                >
+                  Save as default company info
+                </label>
+              </div>
             </div>
 
             <div className="space-y-3">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <User size={14} /> Müşteri
+                <User size={14} /> Client
               </h3>
               <input
-                placeholder="Müşteri Adı / Şirketi"
-                className="w-full border-b border-slate-200 py-2 text-sm focus:border-indigo-500 outline-none transition-colors"
+                placeholder="Client name / Company"
+                className="w-full border-b border-slate-700 py-2 text-sm focus:border-indigo-500 outline-none transition-colors bg-transparent text-slate-100"
                 value={invoice.client.name}
                 onChange={(e) =>
                   setInvoice({
@@ -661,8 +756,8 @@ function BillCraftApp({ user }) {
                 }
               />
               <input
-                placeholder="Müşteri E-postası"
-                className="w-full border-b border-slate-200 py-2 text-sm focus:border-indigo-500 outline-none transition-colors"
+                placeholder="Client email"
+                className="w-full border-b border-slate-700 py-2 text-sm focus:border-indigo-500 outline-none transition-colors bg-transparent text-slate-100"
                 value={invoice.client.email}
                 onChange={(e) =>
                   setInvoice({
@@ -674,20 +769,20 @@ function BillCraftApp({ user }) {
             </div>
           </section>
 
-          {/* Hizmetler */}
+          {/* Line items */}
           <section>
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">
-              Hizmet Kalemleri
+              Line items
             </h3>
             <div className="space-y-4">
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-slate-50 p-3 rounded-lg border border-slate-200 group relative"
+                  className="bg-slate-800 p-3 rounded-lg border border-slate-700 group relative"
                 >
                   <input
-                    placeholder="Hizmet açıklaması"
-                    className="w-full bg-transparent font-medium text-sm outline-none mb-2"
+                    placeholder="Service description"
+                    className="w-full bg-transparent font-medium text-sm outline-none mb-2 text-slate-100"
                     value={item.description}
                     onChange={(e) =>
                       handleItemChange(item.id, 'description', e.target.value)
@@ -696,12 +791,12 @@ function BillCraftApp({ user }) {
                   <div className="flex gap-2">
                     <div className="flex-1">
                       <label className="text-[10px] text-slate-400 uppercase font-bold">
-                        Adet
+                        Quantity
                       </label>
                       <input
                         type="number"
                         min="1"
-                        className="w-full bg-white border rounded px-2 py-1 text-sm outline-none"
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-sm outline-none text-slate-100"
                         value={item.quantity}
                         onChange={(e) =>
                           handleItemChange(
@@ -714,12 +809,12 @@ function BillCraftApp({ user }) {
                     </div>
                     <div className="flex-1">
                       <label className="text-[10px] text-slate-400 uppercase font-bold">
-                        Birim Fiyat
+                        Unit price
                       </label>
                       <input
                         type="number"
                         min="0"
-                        className="w-full bg-white border rounded px-2 py-1 text-sm outline-none"
+                        className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-sm outline-none text-slate-100"
                         value={item.price}
                         onChange={(e) =>
                           handleItemChange(
@@ -733,7 +828,7 @@ function BillCraftApp({ user }) {
                   </div>
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="absolute -top-2 -right-2 bg-rose-100 text-rose-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-200"
+                    className="absolute -top-2 -right-2 bg-rose-900 text-rose-200 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-800"
                   >
                     <Trash2 size={12} />
                   </button>
@@ -741,22 +836,22 @@ function BillCraftApp({ user }) {
               ))}
               <button
                 onClick={addItem}
-                className="w-full py-2 border-2 border-dashed border-slate-300 rounded-lg text-slate-500 text-sm font-medium hover:border-indigo-500 hover:text-indigo-500 transition-colors flex items-center justify-center gap-2"
+                className="w-full py-2 border-2 border-dashed border-slate-700 rounded-lg text-slate-300 text-sm font-medium hover:border-indigo-500 hover:text-indigo-400 transition-colors flex items-center justify-center gap-2"
               >
-                <Plus size={16} /> Yeni Kalem Ekle
+                <Plus size={16} /> Add new line
               </button>
             </div>
           </section>
 
-          {/* Dipnotlar & Vergi */}
+          {/* Tax & notes */}
           <section className="space-y-4">
-            <div>
-              <label className="text-xs font-medium text-slate-500">
-                KDV Oranı (%)
+            <div className="flex items-center">
+              <label className="text-xs font-medium text-slate-300">
+                VAT rate (%)
               </label>
               <input
                 type="number"
-                className="w-20 ml-2 bg-slate-50 border rounded-lg px-2 py-1 text-sm outline-none"
+                className="w-20 ml-2 bg-slate-800 border border-slate-700 rounded-lg px-2 py-1 text-sm outline-none text-slate-100"
                 value={invoice.taxRate}
                 onChange={(e) =>
                   setInvoice({
@@ -767,11 +862,11 @@ function BillCraftApp({ user }) {
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-slate-500 block mb-1">
-                Notlar / Banka Bilgileri
+              <label className="text-xs font-medium text-slate-300 block mb-1">
+                Notes / Bank details
               </label>
               <textarea
-                className="w-full bg-slate-50 border rounded-lg p-3 text-sm outline-none h-24 resize-none"
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm outline-none h-24 resize-none text-slate-100"
                 value={invoice.note}
                 onChange={(e) =>
                   setInvoice({ ...invoice, note: e.target.value })
@@ -782,19 +877,24 @@ function BillCraftApp({ user }) {
         </div>
       </div>
 
-      {/* SAĞ PANEL: ÖNİZLEME */}
-      <div className="w-full md:w-2/3 bg-slate-200 p-8 flex flex-col items-center justify-center relative overflow-hidden">
-        {/* Arka Plan Deseni */}
+      {/* RESIZE HANDLE (desktop only) */}
+      <div
+        className="hidden md:block cursor-col-resize"
+        onMouseDown={startResizing}
+      >
+        <div className="w-1 h-screen bg-slate-900/80 border-r border-slate-800" />
+      </div>
+
+      {/* RIGHT PANEL: PREVIEW */}
+      <div className="flex-1 bg-slate-950 p-8 flex flex-col items-center justify-center relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-5 pointer-events-none"
           style={{
-            backgroundImage:
-              'radial-gradient(#4f46e5 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)',
             backgroundSize: '20px 20px',
           }}
         ></div>
 
-        {/* A4 KAĞIT */}
         <div className="transition-all scale-75 md:scale-90 lg:scale-100 origin-top">
           <div
             ref={invoiceRef}
@@ -803,13 +903,34 @@ function BillCraftApp({ user }) {
             {/* Header */}
             <div className="flex justify-between items-start mb-12">
               <div>
-                <div className="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center mb-4 border-2 border-dashed border-slate-300">
-                  <span className="text-xs text-slate-400 font-medium text-center px-1">
-                    Logo Yükle
-                  </span>
+                <div className="mb-4">
+                  <input
+                    id="logo-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleLogoUpload}
+                  />
+                  <label
+                    htmlFor="logo-upload"
+                    className="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center border-2 border-dashed border-slate-300 cursor-pointer overflow-hidden"
+                  >
+                    {invoice.logoDataUrl ? (
+                      <img
+                        src={invoice.logoDataUrl}
+                        alt="Logo"
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <span className="text-[9px] text-slate-400 font-medium text-center px-1">
+                        Upload logo
+                      </span>
+                    )}
+                  </label>
                 </div>
+
                 <h1 className="text-4xl font-black text-slate-900 tracking-tight">
-                  FATURA
+                  INVOICE
                 </h1>
                 <p className="text-slate-400 font-medium mt-1">
                   #{invoice.number}
@@ -817,16 +938,16 @@ function BillCraftApp({ user }) {
               </div>
               <div className="text-right">
                 <h3 className="font-bold text-lg mb-1">
-                  {invoice.sender.name || 'Şirket Adınız'}
+                  {invoice.sender.name || 'Your company name'}
                 </h3>
                 <p className="text-sm text-slate-500 max-w-[200px] ml-auto">
                   {invoice.sender.email}
                 </p>
                 <p className="text-sm text-slate-500 mt-4 font-medium">
-                  Tarih: {invoice.date}
+                  Date: {invoice.date}
                 </p>
                 <p className="text-sm text-slate-500">
-                  Son Ödeme: {invoice.dueDate}
+                  Due date: {invoice.dueDate}
                 </p>
               </div>
             </div>
@@ -834,87 +955,86 @@ function BillCraftApp({ user }) {
             {/* Client Info */}
             <div className="mb-12">
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                Sayın:
+                Bill to:
               </h4>
               <h2 className="text-xl font-bold text-slate-800">
-                {invoice.client.name || 'Müşteri Adı'}
+                {invoice.client.name || 'Client name'}
               </h2>
               <p className="text-slate-500 text-sm">{invoice.client.email}</p>
             </div>
 
-          {/* Table */}
-          <table className="w-full mb-8">
-            <thead>
-              <tr className="border-b-2 border-slate-100">
-                <th className="text-left py-3 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/2">
-                  Açıklama
-                </th>
-                <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                  Miktar
-                </th>
-                <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                  Fiyat
-                </th>
-                <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                  Toplam
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {items.map((item) => (
-                <tr key={item.id}>
-                  <td className="py-4 text-sm font-medium">
-                    {item.description || 'Hizmet açıklaması giriniz...'}
-                  </td>
-                  <td className="py-4 text-sm text-right text-slate-500">
-                    {item.quantity}
-                  </td>
-                  <td className="py-4 text-sm text-right text-slate-500">
-                    {formatMoney(item.price)}
-                  </td>
-                  <td className="py-4 text-sm text-right font-bold text-slate-700">
-                    {formatMoney(item.price * item.quantity)}
-                  </td>
+            {/* Table */}
+            <table className="w-full mb-8">
+              <thead>
+                <tr className="border-b-2 border-slate-100">
+                  <th className="text-left py-3 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/2">
+                    Description
+                  </th>
+                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    Quantity
+                  </th>
+                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    Price
+                  </th>
+                  <th className="text-right py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    Total
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {items.map((item) => (
+                  <tr key={item.id}>
+                    <td className="py-4 text-sm font-medium">
+                      {item.description || 'Enter service description...'}
+                    </td>
+                    <td className="py-4 text-sm text-right text-slate-500">
+                      {item.quantity}
+                    </td>
+                    <td className="py-4 text-sm text-right text-slate-500">
+                      {formatMoney(item.price)}
+                    </td>
+                    <td className="py-4 text-sm text-right font-bold text-slate-700">
+                      {formatMoney(item.price * item.quantity)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-<div style={{ pageBreakInside: 'avoid' }}>
-          {/* Totals */}
-          <div className="flex justify-end mb-12">
-            <div className="w-1/2 space-y-3">
-              <div className="flex justify-between text-sm text-slate-500">
-                <span>Ara Toplam</span>
-                <span>{formatMoney(subtotal)}</span>
+            <div style={{ pageBreakInside: 'avoid' }}>
+              {/* Totals */}
+              <div className="flex justify-end mb-12">
+                <div className="w-1/2 space-y-3">
+                  <div className="flex justify-between text-sm text-slate-500">
+                    <span>Subtotal</span>
+                    <span>{formatMoney(subtotal)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-slate-500">
+                    <span>VAT ({invoice.taxRate}%)</span>
+                    <span>{formatMoney(taxAmount)}</span>
+                  </div>
+                  <div className="flex justify-between text-xl font-bold text-indigo-600 border-t border-slate-200 pt-3">
+                    <span>TOTAL</span>
+                    <span>{formatMoney(total)}</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between text-sm text-slate-500">
-                <span>KDV (%{invoice.taxRate})</span>
-                <span>{formatMoney(taxAmount)}</span>
-              </div>
-              <div className="flex justify-between text-xl font-bold text-indigo-600 border-t border-slate-200 pt-3">
-                <span>GENEL TOPLAM</span>
-                <span>{formatMoney(total)}</span>
+
+              {/* Footer Note */}
+              <div className="bg-slate-50 p-4 rounded-lg border border-slate-100 text-sm text-slate-600">
+                <span className="font-bold text-slate-800">Note:</span>{' '}
+                {invoice.note}
               </div>
             </div>
-          </div>
 
-          {/* Footer Note */}
-          <div className="bg-slate-50 p-4 rounded-lg border border-slate-100 text-sm text-slate-600">
-            <span className="font-bold text-slate-800">Not:</span>{' '}
-            {invoice.note}
-          </div>
-          </div>
-          
-
-          {/* Branding Watermark */}
-          <div className="absolute bottom-8 left-0 w-full text-center opacity-30 pointer-events-none">
-            <p className="text-xs font-bold flex items-center justify-center gap-1">
-              <Settings size={12} /> BillCraft ile oluşturuldu
-            </p>
+            {/* Branding Watermark */}
+            <div className="absolute bottom-8 left-0 w-full text-center opacity-30 pointer-events-none">
+              <p className="text-xs font-bold flex items-center justify-center gap-1">
+                <Settings size={12} /> Created with BillCraft
+              </p>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       {/* PRO MODAL */}
@@ -938,7 +1058,7 @@ function BillCraftApp({ user }) {
                 BillCraft PRO
               </h2>
               <p className="text-slate-500 mt-2">
-                Markanızın değerini artırın.
+                Take your brand to the next level.
               </p>
             </div>
 
@@ -947,27 +1067,27 @@ function BillCraftApp({ user }) {
                 <div className="bg-green-100 p-1 rounded text-green-600">
                   <Settings size={14} />
                 </div>
-                "BillCraft ile oluşturuldu" yazısını kaldır
+                Remove the "Created with BillCraft" watermark
               </li>
               <li className="flex items-center gap-3 text-sm font-medium text-slate-700">
                 <div className="bg-indigo-100 p-1 rounded text-indigo-600">
                   <FileText size={14} />
                 </div>
-                Sınırsız Şablon &amp; Renk Seçeneği
+                Unlimited templates & color options
               </li>
               <li className="flex items-center gap-3 text-sm font-medium text-slate-700">
                 <div className="bg-purple-100 p-1 rounded text-purple-600">
                   <Mail size={14} />
                 </div>
-                Tek tıkla müşteriye e-posta gönder
+                Send invoice to client with one click
               </li>
             </ul>
 
             <button className="w-full bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
-              Ömür Boyu Lisans Al (₺149)
+              Get lifetime license (₺149)
             </button>
             <p className="text-center text-xs text-slate-400 mt-4">
-              Tek seferlik ödeme. Abonelik yok.
+              One-time payment. No subscription.
             </p>
           </div>
         </div>
